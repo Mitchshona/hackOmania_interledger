@@ -2,10 +2,11 @@
 
 import type React from "react"
 import { useState, useRef, useEffect } from "react"
-import { useParams } from "next/navigation" // ✅ Extract username from URL
+import { useParams } from "next/navigation"
 import Image from "next/image"
-import { db } from "@/app/config/firebase-config"
-import { collection, query, where, getDocs, doc, updateDoc, getDoc } from "firebase/firestore"
+import { db, storage } from "@/app/config/firebase-config"
+import { collection, query, where, getDocs, doc, updateDoc, getDoc, addDoc } from "firebase/firestore"
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import {
@@ -28,16 +29,73 @@ export function VerifyImageModal({
   onClose,
   onPostUploaded,
 }: VerifyImageModalProps) {
-  const { username } = useParams() // ✅ Retrieve username from URL
+  const { username } = useParams()
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [isUploading, setIsUploading] = useState(false)
   const [currentStep, setCurrentStep] = useState(1)
   const [screenTimeMessage, setScreenTimeMessage] = useState("")
-  const [streak, setStreak] = useState<number | null>(null) // ✅ Store streak in state
+  const [streak, setStreak] = useState<number | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
-  // ✅ Handle file change for image upload
+  useEffect(() => {
+    if (isOpen) {
+      fetchStreak()
+    }
+  }, [isOpen])
+
+  // ✅ Fetch streak from Firestore
+  const fetchStreak = async () => {
+    if (!username) return
+
+    try {
+      const usersRef = collection(db, "users")
+      const q = query(usersRef, where("userName", "==", username))
+      const querySnapshot = await getDocs(q)
+
+      if (!querySnapshot.empty) {
+        const userDoc = querySnapshot.docs[0]
+        const userData = userDoc.data()
+
+        if (userData) {
+          setStreak(userData.streak || 0)
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching streak:", error)
+    }
+  }
+
+  // ✅ Increase streak in Firestore
+  const increaseStreak = async () => {
+    if (!username) return
+
+    try {
+      const usersRef = collection(db, "users")
+      const q = query(usersRef, where("userName", "==", username))
+      const querySnapshot = await getDocs(q)
+
+      if (!querySnapshot.empty) {
+        const userDoc = querySnapshot.docs[0]
+        const userRef = doc(db, "users", userDoc.id)
+
+        const latestUserDoc = await getDoc(userRef)
+        const latestUserData = latestUserDoc.data()
+
+        if (!latestUserData) return
+
+        const newStreak = (latestUserData.streak || 0) + 1
+        await updateDoc(userRef, { streak: newStreak })
+
+        console.log(`🔥 Streak updated! New streak: ${newStreak}`)
+        setStreak(newStreak)
+      }
+    } catch (error) {
+      console.error("Error updating streak:", error)
+    }
+  }
+
+  // ✅ Handle file selection
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
       const file = event.target.files[0]
@@ -47,79 +105,7 @@ export function VerifyImageModal({
     }
   }
 
-  // ✅ Fetch streak from Firestore and update UI
-  const fetchStreak = async () => {
-    if (!username) {
-      console.error("Username not found in URL.")
-      return
-    }
-
-    try {
-      const usersRef = collection(db, "users")
-      const q = query(usersRef, where("userName", "==", username))
-      const querySnapshot = await getDocs(q)
-
-      if (!querySnapshot.empty) {
-        const userDoc = querySnapshot.docs[0]
-        const userRef = doc(db, "users", userDoc.id)
-        const userData = (await getDoc(userRef)).data()
-
-        if (userData) {
-          setStreak(userData.streak || 0) // ✅ Update state with Firestore streak
-        }
-      }
-    } catch (error) {
-      console.error("Error fetching streak:", error)
-    }
-  }
-
-  // ✅ Increase streak and refresh UI
-  const increaseStreak = async () => {
-    if (!username) {
-      console.error("Username not found in URL.")
-      return
-    }
-
-    try {
-      const usersRef = collection(db, "users")
-      const q = query(usersRef, where("userName", "==", username))
-      const querySnapshot = await getDocs(q)
-
-      if (!querySnapshot.empty) {
-        const userDoc = querySnapshot.docs[0]
-        const userRef = doc(db, "users", userDoc.id)
-
-        // ✅ Fetch latest data before updating
-        const latestUserDoc = await getDoc(userRef)
-        const latestUserData = latestUserDoc.data()
-
-        if (!latestUserData) {
-          console.error(`User '${username}' data is missing.`)
-          return
-        }
-
-        // ✅ Increase streak
-        const newStreak = (latestUserData.streak || 0) + 1
-        await updateDoc(userRef, { streak: newStreak })
-
-        console.log(`🔥 Streak updated! New streak: ${newStreak}`)
-
-        // ✅ Fetch updated streak count to refresh UI
-        fetchStreak()
-      }
-    } catch (error) {
-      console.error("Error updating streak:", error)
-    }
-  }
-
-  // ✅ Auto-fetch streak when modal opens
-  useEffect(() => {
-    if (isOpen) {
-      fetchStreak()
-    }
-  }, [isOpen])
-
-  // ✅ Handle file upload & verification
+  // ✅ Upload image to Firebase Storage and save record to Firestore
   const handleUpload = async () => {
     if (!selectedFile) {
       alert("Please select an image to upload.")
@@ -130,10 +116,10 @@ export function VerifyImageModal({
 
     try {
       const reader = new FileReader()
-
       reader.onload = async () => {
         const base64Image = reader.result as string
 
+        // ✅ Send image to external API for screen time analysis
         const response = await fetch("http://localhost:5600/api/analyze-image", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -153,38 +139,52 @@ export function VerifyImageModal({
             `Step 2: Verify that your screen time is ${hours}h ${minutes}m`
           )
 
-          // ✅ If screen time is below 2 hours, increase streak
           if (screenTimeMinutes <= 120) {
-            alert("Successful verification! Congratulations")
+            alert("✅ Verification successful! Uploading image...")
+
+            // ✅ Upload image to Firebase Storage
+            const storageRef = ref(storage, `records/${Date.now()}-${selectedFile.name}`)
+            await uploadBytes(storageRef, selectedFile)
+            const imageUrl = await getDownloadURL(storageRef)
+
+            // ✅ Save record in Firestore
+            await addDoc(collection(db, "records"), {
+              username,
+              imageUrl,
+              screenTime: `${hours}h ${minutes}m`,
+              timestamp: new Date(),
+            })
+
+            console.log("📸 Record added to Firestore:", { username, imageUrl })
 
             // ✅ Increase streak and refresh UI
             await increaseStreak()
+            await onPostUploaded()
           } else {
-            alert("Sorry, screen time exceeds 2 hours!")
+            alert("❌ Sorry, screen time exceeds 2 hours!")
           }
 
-          // ✅ Reset state after a successful upload
           resetForm()
           onClose()
         } else {
-          alert(`Failed to analyze image: ${data.descriptionOfAnalysis}`)
+          alert(`❌ Failed to analyze image: ${data.descriptionOfAnalysis}`)
         }
       }
 
       reader.onerror = () => {
-        alert("Error reading the image file. Please try again.")
+        alert("❌ Error reading the image file. Please try again.")
       }
 
       reader.readAsDataURL(selectedFile)
     } catch (error) {
-      console.error("Error analyzing image:", error)
+      console.error("❌ Error analyzing image:", error)
       alert("Failed to analyze image. Please try again.")
     } finally {
       setIsUploading(false)
     }
   }
 
-  // ✅ Reset form after closing modal
+  // ✅ Reset form state
   const resetForm = () => {
     setSelectedFile(null)
     setPreviewUrl(null)
