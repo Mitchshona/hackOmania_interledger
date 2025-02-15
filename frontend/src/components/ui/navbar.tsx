@@ -69,7 +69,7 @@ const Navbar = () => {
             </Button>      
           </Link>
 
-          <Link href="/feed">
+          <Link href="/challenges">
             <Button 
               size="sm" 
               variant="outline" 
