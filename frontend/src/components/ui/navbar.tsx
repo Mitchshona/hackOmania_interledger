@@ -1,6 +1,6 @@
 import Link from "next/link"
 import { Smartphone } from "lucide-react"
-
+import { Button } from "@/components/ui/button"
 const Navbar = () => {
   return (
     <header className="sticky top-0 z-50 bg-white border-b">
@@ -18,6 +18,9 @@ const Navbar = () => {
           </Link>
           <Link className="text-sm font-medium hover:underline underline-offset-4" href="/feed">
             Feed
+          </Link>
+          <Link href="/feed">
+            <Button className="bg-red-600 hover:bg-red-800 text-white">Start your journey</Button>
           </Link>
         </nav>
       </div>
