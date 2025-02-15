@@ -58,7 +58,7 @@ const SupporterCard = () => {
               icon="streak"
               value={13}
               label="Encouraged"
-              variant="blue"
+              variant="green"
             />
           </div>
           <div className="max-w-xl space-y-4 text-gray-300">
