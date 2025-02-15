@@ -1,25 +1,54 @@
 'use client'
 import { useState } from 'react';
-import {useSignInWithEmailAndPassword} from 'react-firebase-hooks/auth'
-import {auth} from '@/app/config/firebase-config'
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { auth, db } from '@/app/config/firebase-config';
 import { useRouter } from 'next/navigation';
+import { doc, getDoc } from "firebase/firestore";
 
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [signInWithEmailAndPassword] = useSignInWithEmailAndPassword(auth);
-  const router = useRouter()
+  const router = useRouter();
 
   const handleSignIn = async () => {
     try {
-        const res = await signInWithEmailAndPassword(email, password);
-        console.log({res});
-        sessionStorage.setItem('user', "true")
-        setEmail('');
-        setPassword('');
-        router.push('/')
-    }catch(e){
-        console.error(e)
+      const res = await signInWithEmailAndPassword(email, password);
+      if (!res || !res.user) {
+        alert("Sign-in failed. Please try again.");
+        return;
+      }
+
+      const userId = res.user.uid; // ✅ Get user ID from Firebase Auth
+
+      // ✅ Fetch user data from Firestore
+      const userDocRef = doc(db, "users", userId);
+      const userDocSnap = await getDoc(userDocRef);
+
+      if (!userDocSnap.exists()) {
+        alert("User data not found. Please contact support.");
+        return;
+      }
+
+      const userData = userDocSnap.data();
+
+      // ✅ Store user details in localStorage
+      localStorage.setItem("currentUser", JSON.stringify({
+        id: userId,
+        userName: userData.userName,
+        email: res.user.email,
+        avatar: userData.avatar,
+      }));
+
+      console.log("User Signed In:", userData);
+      sessionStorage.setItem('user', "true");
+
+      // ✅ Redirect to home page
+      router.push('/');
+
+    } catch (e) {
+      console.error("Sign-in Error:", e);
+      alert("Failed to sign in. Please check your credentials.");
     }
   };
 
