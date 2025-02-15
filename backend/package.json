@@ -19,10 +19,12 @@
     "homepage": "https://github.com/Mitchshona/hackOmania_interledger#readme",
     "dependencies": {
         "@interledger/open-payments": "^6.13.2",
+        "axios": "^1.7.9",
         "body-parser": "^1.20.3",
         "class-validator": "^0.14.1",
         "dotenv": "^16.4.7",
         "express": "^4.21.2",
+        "firebase": "^11.3.1",
         "openai": "^4.85.1"
     }
 }
