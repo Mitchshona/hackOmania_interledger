@@ -29,7 +29,7 @@ export default function LandingPage() {
                       Break Free from Internet Addiction
                     </h1>
                     <p className="max-w-[700px] text-gray-500 md:text-xl">
-                      Share your internet addiction recovery journey on Wellquit and receive support from the community.
+                      Share your internet addiction recovery journey on well and receive support from the community.
                     </p>
                   </div>
                   <div className="space-x-4">
@@ -46,7 +46,7 @@ export default function LandingPage() {
         <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-white">
           <div className="container mx-auto max-w-7xl px-4 md:px-6 flex flex-col items-center">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
-              What is Wellquit?
+              What is well?
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               <FeatureCard
@@ -106,7 +106,7 @@ export default function LandingPage() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <TestimonialCard
-                quote="Wellquit helped me regain control of my life. I've rediscovered my passion for outdoor activities!"
+                quote="well helped me regain control of my life. I've rediscovered my passion for outdoor activities!"
                 author="Alex, 17"
               />
               <TestimonialCard
@@ -114,7 +114,7 @@ export default function LandingPage() {
                 author="Sam, 15"
               />
               <TestimonialCard
-                quote="I've improved my grades and relationships since joining Wellquit. It's been life-changing!"
+                quote="I've improved my grades and relationships since joining well. It's been life-changing!"
                 author="Jordan, 16"
               />
             </div>
@@ -128,7 +128,7 @@ export default function LandingPage() {
                   Start Your Journey Today
                 </h2>
                 <p className="mx-auto max-w-[600px] text-blue-100 md:text-xl">
-                  Join thousands of teens taking control of their digital lives. Sign up for Wellquit and begin your
+                  Join thousands of teens taking control of their digital lives. Sign up for well and begin your
                   path to a balanced lifestyle.
                 </p>
               </div>
@@ -150,7 +150,7 @@ export default function LandingPage() {
         </section>
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center justify-between px-4 md:px-6 border-t max-w-7xl mx-auto">
-        <p className="text-xs text-gray-500">© 2024 Wellquit. All rights reserved.</p>
+        <p className="text-xs text-gray-500">© 2024 well. All rights reserved.</p>
         <nav className="sm:ml-auto flex gap-4 sm:gap-6">
           <Link className="text-xs hover:underline underline-offset-4" href="#">
             Terms of Service
