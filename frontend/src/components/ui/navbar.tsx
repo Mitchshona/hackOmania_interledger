@@ -3,7 +3,7 @@ import { Smartphone } from "lucide-react"
 
 const Navbar = () => {
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b">
+    <header className="sticky top-0 z-50 bg-white border-b">
       <div className="px-4 lg:px-6 h-20 flex items-center justify-between max-w-7xl mx-auto w-full">
         <Link className="flex items-center justify-center" href="/">
           <Smartphone className="h-6 w-6 text-blue-600" />

@@ -51,7 +51,6 @@ export default function FeedPage() {
 
   return (
     <main className="container mx-auto px-4 py-8">
-      <Navbar />
       <div className="flex">
         <h1 className="text-3xl font-bold mb-6 mr-3">Social Feed</h1>
         <ImageUploadButton />
