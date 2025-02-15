@@ -26,11 +26,11 @@ const Navbar = () => {
           </Link>
           <Link 
             className="text-sm font-medium hover:underline underline-offset-4 py-2" 
-            href="/feed"
+            href="/sign-in"
           >
-            Feed
+            Sign in
           </Link>
-          <Link href="/feed">
+          <Link href="/sign-up">
             <Button className="bg-red-600 hover:bg-red-800 text-white">
               Start your journey
             </Button>
