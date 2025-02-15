@@ -39,14 +39,24 @@ export function ImageUploadModal({ isOpen, onClose, onPostUploaded }: ImageUploa
     }
   
     setIsUploading(true);
+
+  // ✅ Retrieve user from localStorage
+  const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+  if (!currentUser?.id || !currentUser?.avatar) {
+    alert("User not found. Please sign in again.");
+    return;
+  }
   
     const formData = new FormData();
     formData.append("image", selectedFile);
     formData.append("caption", caption);
+    formData.append("avatar", currentUser.avatar); // ✅ Include avatar URL
   
     try {
       const response = await fetch("/api/upload-post", {
         method: "POST",
+        headers: { "user-id": currentUser.id,
+        },
         body: formData,
       });
   
@@ -133,4 +143,3 @@ export function ImageUploadModal({ isOpen, onClose, onPostUploaded }: ImageUploa
     </Dialog>
   )
 }
-
