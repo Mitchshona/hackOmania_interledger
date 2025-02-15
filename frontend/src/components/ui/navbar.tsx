@@ -57,15 +57,29 @@ const Navbar = () => {
             className="h-24 w-24"
           />
         </Link>
-        <Link href="/feed">
-                      <Button 
-                        size="sm" 
-                        variant="outline" 
-                        className="text-md px-3 py-5 text-green-600 hover:bg-green-800 rounded-full"
-                      >
-                        Explore
-                      </Button>
-                    </Link>
+        
+        <div className="flex items-center space-x-2">
+          <Link href="/feed">
+            <Button 
+              size="sm" 
+              variant="outline" 
+              className="text-md px-3 py-5 text-green-600 hover:bg-green-800 hover:text-white rounded-full"
+            >
+              Explore
+            </Button>      
+          </Link>
+
+          <Link href="/feed">
+            <Button 
+              size="sm" 
+              variant="outline" 
+              className="text-md px-3 py-5 text-green-600 hover:bg-green-800 hover:text-white rounded-full"
+            >
+              Challenges
+            </Button>      
+          </Link>
+        </div>
+
         <nav className="ml-auto flex items-center gap-4 sm:gap-6">
           {user ? (
             <div className="flex items-center space-x-4">
