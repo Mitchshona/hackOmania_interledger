@@ -17,7 +17,8 @@ const app = express();
 app.use(express.json());
 const PORT = 5600;
 
-const backend_endpoint = process.env.BACKEND_ENDPOINT;
+const openai = new OpenAIHelper();
+const openaiService = new OpenaiService(openai);
 
 const backend_endpoint = process.env.BACKEND_ENDPOINT;
 
