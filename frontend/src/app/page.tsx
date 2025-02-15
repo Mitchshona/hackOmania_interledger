@@ -33,8 +33,8 @@ export default function LandingPage() {
                   </p>
                 </div>
                 <div className="space-x-4">
-                  <Link href="/feed">
-                    <Button className="bg-red-600 hover:bg-red-800 text-white">Start your journey</Button>
+                  <Link href="/sign-up">
+                    <Button className="bg-red-600 hover:bg-red-800 text-white">Sign up</Button>
                   </Link>
                   <Button variant="outline">Learn More</Button>
                 </div>
@@ -147,15 +147,15 @@ export default function LandingPage() {
                     path to a balanced lifestyle.
                   </p>
                 </div>
-                <div className="w-full max-w-sm space-y-2">
-                  <form className="flex space-x-2">
-                    <Input 
-                      className="flex-1 placeholder:text-gray-300" 
-                      placeholder="your@email.com" 
-                      type="email" 
-                    />
-                    <Button type="submit">Sign Up</Button>
-                  </form>
+                <div className="flex flex-col items-center space-y-2">
+                  <Link href="/sign-up">
+                    <Button 
+                      size="lg" 
+                      className="px-12 bg-red-600 hover:bg-red-800 text-white text-lg"
+                    >
+                      Sign up
+                    </Button>
+                  </Link>
                   <p className="text-xs text-blue-200">
                     By signing up, you agree to our Terms of Service and Privacy Policy.
                   </p>
