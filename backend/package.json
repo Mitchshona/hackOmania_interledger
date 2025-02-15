@@ -1,0 +1,23 @@
+{
+    "name": "hackomania",
+    "version": "1.0.0",
+    "description": "hackomania backend",
+    "main": "server.js",
+    "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+      "type": "git",
+      "url": "git+https://github.com/Mitchshona/hackOmania_interledger.git"
+    },
+    "author": "Fantastic4",
+    "license": "ISC",
+    "bugs": {
+      "url": "https://github.com/Mitchshona/hackOmania_interledger/issues"
+    },
+    "homepage": "https://github.com/Mitchshona/hackOmania_interledger#readme",
+    "dependencies": {
+      "express": "^4.21.2"
+    }
+  }
+  
