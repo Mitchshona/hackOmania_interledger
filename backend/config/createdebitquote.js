@@ -35,7 +35,7 @@ export async function quotePromise(walletAddress, privateKey, keyId, accessToken
         walletAddress: walletAddress,
         receiver: paymentId,
         debitAmount: {
-          value: "100", // Default value or make parameter
+          value: "10", // Default value or make parameter
           assetCode: walletDetails.assetCode,
           assetScale: walletDetails.assetScale,
         },

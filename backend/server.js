@@ -68,9 +68,9 @@ app.post('/api/analyze-image', async (req, res) => {
 });
 
 app.post('/createinpay', async (req, res) => {
-    const { WALLET_ADDRESS, PRIVATE_KEY_PATH, KEY_ID, ACCESS_TOKEN } = req.body;
+    const { WALLET_ADDRESS, privateKey, KEY_ID, ACCESS_TOKEN, AMOUNT } = req.body;
     try {
-        const result = await incomingPaymentPromise(WALLET_ADDRESS, PRIVATE_KEY_PATH, KEY_ID, ACCESS_TOKEN);
+        const result = await incomingPaymentPromise(WALLET_ADDRESS, privateKey, KEY_ID, ACCESS_TOKEN, AMOUNT);
         if (result.success) {
             res.status(200).json(result);
         } else {
@@ -278,8 +278,73 @@ app.post('/api/userCreateInComingDonation', async (req, res) => {
     const inGrant = await axios.post(`${backend_endpoint}/createingrant`, { WALLET_ADDRESS, privateKey, KEY_ID });
     console.log(inGrant.data);
     const ACCESS_TOKEN = inGrant.data.grantData.accessToken;
-    const inPay = await axios.post(`${backend_endpoint}/createinpay`, { WALLET_ADDRESS, PRIVATE_KEY_PATH, KEY_ID, ACCESS_TOKEN, AMOUNT });
+    const inPay = await axios.post(`${backend_endpoint}/createinpay`, { WALLET_ADDRESS, privateKey, KEY_ID, ACCESS_TOKEN, AMOUNT});
     res.status(200).json(inPay.data);
+});
+
+app.post('/api/userCreateOutGoingDonation', async (req, res) => {
+    const { WALLET_ADDRESS, PRIVATE_KEY_PATH, KEY_ID, PAYMENTID } = req.body;
+    
+    let privateKey;
+    try {
+        privateKey = fs.readFileSync(PRIVATE_KEY_PATH, 'utf8');
+    } catch (error) {
+        return res.status(400).json({
+            success: false,
+            error: `Failed to read private key file: ${error.message}`
+        });
+    }
+    const client = await createAuthenticatedClient({
+        walletAddressUrl: WALLET_ADDRESS,
+        privateKey: privateKey,
+        keyId: KEY_ID,
+      });
+
+    const sendingWalletAddress = await client.walletAddress.get({
+        url: WALLET_ADDRESS, // Make sure the wallet address starts with https:// (not $)
+      });
+    const quoteGrant = await client.grant.request(
+        {
+          url: sendingWalletAddress.authServer,
+        },
+        {
+          access_token: {
+            access: [
+              {
+                type: "quote",
+                actions: ["create", "read"],
+              },
+            ],
+          },
+        }
+      );
+    
+    const ACCESS_TOKEN = quoteGrant.access_token.value;
+    const debitQuote = await axios.post(`${backend_endpoint}/createdebitquote`, { WALLET_ADDRESS, PRIVATE_KEY_PATH, KEY_ID, ACCESS_TOKEN, PAYMENTID });
+    const QUOTE = debitQuote.data.quote;
+    console.log(debitQuote.data);
+    const result = await outgoingGrantPromise(
+        WALLET_ADDRESS,
+        PRIVATE_KEY_PATH,
+        KEY_ID,
+        ACCESS_TOKEN,
+        PAYMENTID,
+        QUOTE
+    );
+
+    grantSessions.set(result.nonce, {
+        continueUri: result.grant.continue.uri,
+        continueAccessToken: result.grant.continue.access_token.value,
+        quote: QUOTE,    
+        clientConfig: { 
+            WALLET_ADDRESS, 
+            PRIVATE_KEY_PATH, 
+            KEY_ID,
+        }
+    });    
+    console.log(result.data);
+    res.status(200).json(result.data);
+    // redirect(outgoingGrant.data.interaction_url);
 });
 
 app.post('db/api/getUserWallet', async (req, res) => {
