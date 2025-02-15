@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { VerifyImageModal } from "./profile/VerifyImageModal";
 
 const posts = [
@@ -11,6 +11,7 @@ const posts = [
 
 export default function UserPosts() {
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean | null>(null);
 
   const handleOpenModal = () => setIsModalOpen(true);
   const handleCloseModal = () => setIsModalOpen(false);
@@ -19,16 +20,33 @@ export default function UserPosts() {
     // Add logic to refresh posts if needed
   };
 
+  // Check if user is authenticated by looking for currentUser in localStorage
+  useEffect(() => {
+    const currentUser = localStorage.getItem("currentUser");
+    if (currentUser) {
+      setIsAuthenticated(true);
+    } else {
+      setIsAuthenticated(false);
+    }
+  }, []);
+
+  if (isAuthenticated === null) {
+    return <div>Loading...</div>; // Loading state until authentication status is known
+  }
+
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-2xl font-bold">My Records</h2>
-        <button
-          onClick={handleOpenModal}
-          className="bg-blue-500 text-white px-4 py-2 rounded-md"
-        >
-          Verify Image
-        </button>
+        {/* Show button only if user is authenticated */}
+        {isAuthenticated && (
+          <button
+            onClick={handleOpenModal}
+            className="bg-blue-500 text-white px-4 py-2 rounded-md"
+          >
+            Verify Image
+          </button>
+        )}
       </div>
 
       {posts.map((post) => (
