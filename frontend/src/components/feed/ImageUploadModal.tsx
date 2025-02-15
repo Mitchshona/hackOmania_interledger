@@ -13,9 +13,10 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "
 interface ImageUploadModalProps {
   isOpen: boolean
   onClose: () => void
+  onPostUploaded: () => Promise<void>; 
 }
 
-export function ImageUploadModal({ isOpen, onClose }: ImageUploadModalProps) {
+export function ImageUploadModal({ isOpen, onClose, onPostUploaded }: ImageUploadModalProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [caption, setCaption] = useState("")
@@ -33,32 +34,41 @@ export function ImageUploadModal({ isOpen, onClose }: ImageUploadModalProps) {
 
   const handleUpload = async () => {
     if (!selectedFile) {
-      alert("Please select an image to upload")
-      return
+      alert("Please select an image to upload");
+      return;
     }
-
-    setIsUploading(true)
-
-    const formData = new FormData()
-    formData.append("image", selectedFile)
-    formData.append("caption", caption)
-
+  
+    setIsUploading(true);
+  
+    const formData = new FormData();
+    formData.append("image", selectedFile);
+    formData.append("caption", caption);
+  
     try {
-      const response = await axios.post("/api/upload-post", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
-        },
-      })
-      console.log("Post uploaded successfully:", response.data)
-      onClose()
-      // You might want to refresh the feed or add the new post to the existing feed
+      const response = await fetch("/api/upload-post", {
+        method: "POST",
+        body: formData,
+      });
+  
+      const data = await response.json();
+  
+      if (data.success) {
+        console.log("Post uploaded successfully:", data);
+        onClose(); // Close the modal after posting
+        setSelectedFile(null);
+        setCaption("");
+        await onPostUploaded();
+      } else {
+        alert("Failed to upload post. Please try again.");
+      }
     } catch (error) {
-      console.error("Error uploading post:", error)
-      alert("Failed to upload post. Please try again.")
+      console.error("Error uploading post:", error);
+      alert("Failed to upload post. Please try again.");
     } finally {
-      setIsUploading(false)
+      setIsUploading(false);
     }
   }
+  
 
   const resetForm = () => {
     setSelectedFile(null)

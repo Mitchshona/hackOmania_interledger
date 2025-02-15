@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 
 
 interface Post {
-  id: number
+  id: string
   user: string
   avatar: string
   image: string

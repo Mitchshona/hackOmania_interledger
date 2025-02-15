@@ -4,9 +4,12 @@ import { useState, useEffect } from "react"
 import { FeedPost } from "@/components/feed/FeedPost"
 import { ImageUploadButton } from "@/components/feed/ImageUploadButton"
 import Navbar from "@/components/ui/navbar"
+import { db } from "@/app/config/firebase-config"
+import { collection, getDocs, query, orderBy } from "firebase/firestore"
+
 // Define the Post type
 interface Post {
-  id: number
+  id: string  // Firebase document ID (was number, changed to string)
   user: string
   avatar: string
   image: string
@@ -16,62 +19,50 @@ interface Post {
   donations: number
 }
 
-// Dummy data to use while Supabase is down
-const dummyData: Post[] = [
-  {
-    id: 1,
-    user: "John Doe",
-    avatar: "/placeholder.svg?height=40&width=40",
-    image: "/placeholder.svg?height=400&width=400",
-    caption: "Enjoying a mindful moment! #wellness #mindfulness",
-    likes: 120,
-    comments: 45,
-    donations: 20,
-  },
-  {
-    id: 2,
-    user: "Jane Smith",
-    avatar: "/placeholder.svg?height=40&width=40",
-    image: "/placeholder.svg?height=400&width=400",
-    caption: "Exploring the power of gratitude. #gratitude #mindfulness",
-    likes: 200,
-    comments: 30,
-    donations: 50,
-  },
-  // Add more dummy posts as needed
-]
-
-
 export default function FeedPage() {
   const [posts, setPosts] = useState<Post[]>([])
   const [loading, setLoading] = useState<boolean>(true)
   const [error, setError] = useState<string | null>(null)
 
+  const fetchPosts = async () => {
+    setLoading(true);
+    try {
+      const postsCollection = collection(db, "posts")
+      const q = query(postsCollection, orderBy("createdAt", "desc"))
+      const querySnapshot = await getDocs(q)
+
+      const fetchedPosts: Post[] = querySnapshot.docs.map((doc) => ({
+        id: doc.id,
+        user: doc.data().user || "Unknown User",
+        avatar: doc.data().avatar || "/placeholder.svg?height=40&width=40",
+        image: doc.data().image || "",
+        caption: doc.data().caption || "",
+        likes: doc.data().likes || 0,
+        comments: doc.data().comments || 0,
+        donations: doc.data().donations || 0,
+      }));
+
+      setPosts(fetchedPosts)
+    } catch (error) {
+      setError("Failed to get posts")
+      console.error("Error fetching posts:", error)
+    } finally {
+      setLoading(false)
+    }
+  }
+
   useEffect(() => {
-    // Instead of fetching from Supabase, use dummy data for now
-    setPosts(dummyData)
-
-    // const fetchposts = async () => {
-    //   try {
-    //     const response = await axios.get("https://your-api-endpoint.com/posts")
-    //     setPosts(response.data)
-    //   } catch (error) {
-    //     setError("Failed to get posts")
-    //     console.error("Error fetching posts:", err)
-    //   } finally {
-    //     setLoading(false)
-    //   }
-    // }
-
-
+    fetchPosts()
   }, [])
 
   return (
     <main className="container mx-auto px-4 py-8">
       <div className="flex">
         <h1 className="text-3xl font-bold mb-6 mr-3">Social Feed</h1>
-        <ImageUploadButton />
+        <ImageUploadButton onPostUploaded={fetchPosts} />
       </div>
+      {loading && <p>Loading posts...</p>}
+      {error && <p className="text-red-500">{error}</p>}
       <div className="space-y-8">
         {posts.map((post) => (
           <FeedPost key={post.id} post={post} />
@@ -80,4 +71,3 @@ export default function FeedPage() {
     </main>
   )
 }
-
