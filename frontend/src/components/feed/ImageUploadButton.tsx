@@ -5,19 +5,13 @@ import { Button } from "@/components/ui/button"
 import { Upload } from "lucide-react"
 import { ImageUploadModal } from "./ImageUploadModal"
 
-export function ImageUploadButton() {
-  const [isModalOpen, setIsModalOpen] = useState(false)
-
-  const openModal = () => setIsModalOpen(true)
-  const closeModal = () => setIsModalOpen(false)
+export function ImageUploadButton({ onPostUploaded }: { onPostUploaded: () => void }) {
+  const [isOpen, setIsOpen] = useState(false)
 
   return (
     <>
-      <Button variant="outline" size="icon" onClick={openModal}>
-        <Upload className="h-4 w-4" />
-      </Button>
-      <ImageUploadModal isOpen={isModalOpen} onClose={closeModal} />
+      <button onClick={() => setIsOpen(true)}>Upload Post</button>
+      <ImageUploadModal isOpen={isOpen} onClose={() => setIsOpen(false)} onPostUploaded={onPostUploaded} />
     </>
   )
 }
-
