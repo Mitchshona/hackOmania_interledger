@@ -61,7 +61,7 @@ export default function FeedPage() {
         <h1 className="text-3xl font-bold mb-6 mr-3">Social Feed</h1>
         <ImageUploadButton onPostUploaded={fetchPosts} />
       </div>
-      {loading && <p>Loading posts...</p>}
+      {loading && <p>Loading Posts. Please Wait...</p>}
       {error && <p className="text-red-500">{error}</p>}
       <div className="space-y-8">
         {posts.map((post) => (
