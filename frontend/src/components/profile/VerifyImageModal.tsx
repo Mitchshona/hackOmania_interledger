@@ -1,104 +1,133 @@
-"use client"
+"use client";
 
-import type React from "react"
-
-import { useState, useRef } from "react"
-import axios from "axios"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from "@/components/ui/dialog"
+import type React from "react";
+import { useState, useRef } from "react";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 
 interface VerifyImageModalProps {
-  isOpen: boolean
-  onClose: () => void
-  onPostUploaded: () => Promise<void>; 
+  isOpen: boolean;
+  onClose: () => void;
+  onPostUploaded: () => Promise<void>;
 }
 
-export function VerifyImageModal({ isOpen, onClose, onPostUploaded }: VerifyImageModalProps) {
-  const [selectedFile, setSelectedFile] = useState<File | null>(null)
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
-  const [caption, setCaption] = useState("")
-  const [isUploading, setIsUploading] = useState(false)
-  const fileInputRef = useRef<HTMLInputElement>(null)
+export function VerifyImageModal({
+  isOpen,
+  onClose,
+  onPostUploaded,
+}: VerifyImageModalProps) {
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [isUploading, setIsUploading] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
+  const [screenTimeMessage, setScreenTimeMessage] = useState("");
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
-      const file = event.target.files[0]
-      setSelectedFile(file)
-      const imageUrl = URL.createObjectURL(file)
-      setPreviewUrl(imageUrl)
+      const file = event.target.files[0];
+      setSelectedFile(file);
+      setPreviewUrl(URL.createObjectURL(file));
+      setCurrentStep(2);
     }
-  }
+  };
 
   const handleUpload = async () => {
     if (!selectedFile) {
-      alert("Please select an image to upload");
+      alert("Please select an image to upload.");
       return;
     }
-  
+
     setIsUploading(true);
 
-    const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
-    if (!currentUser?.id || !currentUser?.avatar) {
-      alert("User not found. Please sign in again.");
-      return;
-    }
-  
-    const formData = new FormData();
-    formData.append("image", selectedFile);
-    formData.append("caption", caption);
-    formData.append("avatar", currentUser.avatar);
-  
     try {
-      const response = await fetch("/api/upload-post", {
-        method: "POST",
-        headers: { "user-id": currentUser.id },
-        body: formData,
-      });
-  
-      const data = await response.json();
-  
-      if (data.success) {
-        console.log("Post uploaded successfully:", data);
-        onClose();
-        setSelectedFile(null);
-        setCaption("");
-        await onPostUploaded();
-      } else {
-        alert("Failed to upload post. Please try again.");
-      }
+      const reader = new FileReader();
+
+      reader.onload = async () => {
+        const base64Image = reader.result as string;
+
+        console.log(base64Image);
+
+        const response = await fetch("http://localhost:5600/api/analyze-image", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ image: base64Image }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          console.log("Analysis successful:", data);
+
+          const screenTimeMinutes = parseInt(data.dailyScreenTime, 10) || 0;
+          const hours = Math.floor(screenTimeMinutes / 60);
+          const minutes = screenTimeMinutes % 60;
+
+          setScreenTimeMessage(
+            `Step 2: Verify that your hours is ${hours}h ${minutes}m`
+          );
+
+          alert("Image analyzed successfully!");
+          onClose();
+          setSelectedFile(null);
+          await onPostUploaded();
+        } else {
+          alert(`Failed to analyze image: ${data.descriptionOfAnalysis}`);
+        }
+      };
+
+      reader.onerror = () => {
+        alert("Error reading the image file. Please try again.");
+      };
+
+      reader.readAsDataURL(selectedFile);
     } catch (error) {
-      console.error("Error uploading post:", error);
-      alert("Failed to upload post. Please try again.");
+      console.error("Error analyzing image:", error);
+      alert("Failed to analyze image. Please try again.");
     } finally {
       setIsUploading(false);
     }
-  }
-  
+  };
+
   const resetForm = () => {
-    setSelectedFile(null)
-    setPreviewUrl(null)
-    setCaption("")
+    setSelectedFile(null);
+    setPreviewUrl(null);
+    setCurrentStep(1);
+    setScreenTimeMessage("");
     if (fileInputRef.current) {
-      fileInputRef.current.value = ""
+      fileInputRef.current.value = "";
     }
-  }
+  };
 
   return (
     <Dialog
       open={isOpen}
       onOpenChange={() => {
-        onClose()
-        resetForm()
+        onClose();
+        resetForm();
       }}
     >
-      <DialogContent>
+      <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
-          <DialogTitle>Create New Post</DialogTitle>
+          <DialogTitle>Verify Your Screen Time</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
+          {currentStep === 1 && (
+            <Alert>
+              <AlertDescription>
+                Step 1: Upload a clear photo of your daily screen time image.
+              </AlertDescription>
+            </Alert>
+          )}
           <div className="grid grid-cols-4 items-center gap-4">
             <Input
               id="picture"
@@ -112,7 +141,7 @@ export function VerifyImageModal({ isOpen, onClose, onPostUploaded }: VerifyImag
           {previewUrl && (
             <div className="mt-4">
               <Image
-                src={previewUrl || "/placeholder.svg"}
+                src={previewUrl}
                 alt="Selected image preview"
                 width={300}
                 height={300}
@@ -120,22 +149,32 @@ export function VerifyImageModal({ isOpen, onClose, onPostUploaded }: VerifyImag
               />
             </div>
           )}
+          {currentStep === 2 && (
+            <Alert>
+              <AlertDescription>
+                {screenTimeMessage || "Step 2: Verify that your image clearly shows your daily screen time."}
+              </AlertDescription>
+            </Alert>
+          )}
         </div>
         <DialogFooter>
           <Button
             onClick={() => {
-              onClose()
-              resetForm()
+              onClose();
+              resetForm();
             }}
             variant="outline"
           >
             Cancel
           </Button>
-          <Button onClick={handleUpload} disabled={isUploading || !selectedFile}>
+          <Button
+            onClick={handleUpload}
+            disabled={isUploading || !selectedFile || currentStep !== 2}
+          >
             {isUploading ? "Uploading..." : "Post"}
           </Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

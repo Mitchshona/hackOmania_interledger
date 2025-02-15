@@ -12,8 +12,10 @@ import { createOutgoingPayment } from "./config/createoutpay.js";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import fs from 'fs';
 import axios from 'axios';
+import cors from 'cors';
 
 const app = express();
+app.use(cors());
 app.use(express.json());
 const PORT = 5600;
 
