@@ -38,14 +38,22 @@ export default function UserPosts() {
     <div className="space-y-6">
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-2xl font-bold">My Records</h2>
-        {/* Show button only if user is authenticated */}
+        {/* Show buttons only if user is authenticated */}
         {isAuthenticated && (
-          <button
-            onClick={handleOpenModal}
-            className="bg-blue-500 text-white px-4 py-2 rounded-md"
-          >
-            Verify Image
-          </button>
+          <div className="flex gap-3">
+            <button
+              onClick={handleOpenModal}
+              className="bg-blue-500 text-white px-4 py-2 rounded-md"
+            >
+              Verify Image
+            </button>
+            <button
+              onClick={() => console.log("Donation accepted!")}
+              className="bg-green-500 text-white px-4 py-2 rounded-md"
+            >
+              Accept Donation
+            </button>
+          </div>
         )}
       </div>
 
