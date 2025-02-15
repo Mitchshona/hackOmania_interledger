@@ -46,7 +46,11 @@ const Navbar = () => {
   return (
     <header className="sticky top-0 z-50 bg-white border-b">
       <div className="px-4 lg:px-6 h-20 flex items-center justify-between w-[90%] mx-auto">
-        <Link className="flex items-center justify-center" href="/">
+        <Link 
+          className="flex items-center justify-center transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600 rounded-lg" 
+          href="/"
+          aria-label="Go to homepage"
+        >
           <img 
             src="/welllogo.svg" 
             alt="well Logo" 
