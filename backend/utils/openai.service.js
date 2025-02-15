@@ -17,7 +17,7 @@ export class OpenaiService {
       {
         "validityFactor": {validityFactorNumber}, // 0-1, 1 if it satisfies all the criteria, 0 otherwise
         "descriptionOfAnalysis": "{analysis}" // Indicate your analysis of the image and why it satisfies or not the criteria. The analysis will be shown to the user so make them understand why the image doesn't satisfy the criteria if it doesn't without going into detail on exact criteria. Remember we are rewarding users that drink coffee in a sustainable way.
-        "dailyScreenTime": "{screenTime}" // Output the daily screen time
+        "dailyScreenTime": "{screenTime}" // Output the daily screen time in minutes
       }
     `;
 

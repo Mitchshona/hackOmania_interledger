@@ -24,12 +24,12 @@ export default function ProfileInfo() {
     const fetchUserData = async () => {
       setLoading(true)
 
-      // ✅ Retrieve user from localStorage
-      const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}")
-      if (!currentUser?.id) {
-        console.error("User not found. Please sign in.")
-        return
-      }
+      // // ✅ Retrieve user from localStorage
+      // const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}")
+      // if (!currentUser?.id) {
+      //   console.error("User not found. Please sign in.")
+      //   return
+      // }
 
       try {
         let targetUsername = username // ✅ Use username from URL

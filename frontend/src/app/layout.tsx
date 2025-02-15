@@ -1,10 +1,9 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Bricolage_Grotesque } from "next/font/google";
+import { Bricolage_Grotesque } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/ui/navbar";
 
 const bricolageGrotesque = Bricolage_Grotesque({
-  variable: "--font-bricolage-grotesque",
   subsets: ["latin"],
 });
 
@@ -20,11 +19,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={bricolageGrotesque.className}>
-      <body>
+      <body className={bricolageGrotesque.className}>
         <Navbar />
-        <main className={bricolageGrotesque.className}>
-          {children}
-        </main>
+        {children}
       </body>
     </html>
   );

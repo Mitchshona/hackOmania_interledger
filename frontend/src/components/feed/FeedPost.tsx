@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 import { useState } from 'react'
 import { Heart, MessageCircle, DollarSign } from 'lucide-react'
 import { Button } from "@/components/ui/button"
@@ -23,6 +24,9 @@ interface FeedPostProps {
 export function FeedPost({ post }: FeedPostProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [donationAmount, setDonationAmount] = useState('')
+  const [walletAddress, setWalletAddress] = useState('')
+  const [privateKeyPath, setPrivateKeyPath] = useState('')
+  const [keyId, setKeyId] = useState('')
   const [donationSuccess, setDonationSuccess] = useState(false)
 
   const handleDonate = () => {
@@ -32,6 +36,9 @@ export function FeedPost({ post }: FeedPostProps) {
       setDonationSuccess(false)
       setIsOpen(false)
       setDonationAmount('')
+      setWalletAddress('')
+      setPrivateKeyPath('')
+      setKeyId('')
     }, 2000)
   }
 
@@ -45,7 +52,9 @@ export function FeedPost({ post }: FeedPostProps) {
           height={40}
           className="rounded-full mr-3"
         />
-        <span className="font-semibold">{post.user}</span>
+        <Link href={`/user/${post.user}`} className="font-semibold hover:underline">
+          {post.user}
+        </Link>
       </div>
       <Image 
         src={post.image || "/placeholder.svg"} 
@@ -85,6 +94,28 @@ export function FeedPost({ post }: FeedPostProps) {
                     placeholder="Enter amount (SGD)"
                     value={donationAmount}
                     onChange={(e) => setDonationAmount(e.target.value)}
+                    className="mb-4"
+                  />
+                  <Input
+                    type="text"
+                    placeholder="Enter your wallet address"
+                    value={walletAddress}
+                    onChange={(e) => setWalletAddress(e.target.value)}
+                    className="mb-4"
+                  />
+                  <Input
+                    type="text"
+                    placeholder="Enter your private key path"
+                    value={privateKeyPath}
+                    onChange={(e) => setPrivateKeyPath(e.target.value)}
+                    className="mb-4"
+                  />
+                  <Input
+                    type="text"
+                    placeholder="Enter your key ID"
+                    value={keyId}
+                    onChange={(e) => setKeyId(e.target.value)}
+                    className="mb-4"
                   />
                   <Button onClick={handleDonate}>Donate</Button>
                 </>
