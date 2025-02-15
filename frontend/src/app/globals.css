@@ -7,14 +7,19 @@ body {
 }
 
 .landing-page {
-  overflow: hidden;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow-y: auto;
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
 }
 
-.landing-page-scroll {
-  height: 100vh;
+/* Only apply these styles to non-landing pages */
+body:not(:has(.landing-page)) {
   overflow-y: auto;
-  scroll-behavior: smooth;
-  scroll-snap-type: y mandatory;
 }
 
 @layer base {
