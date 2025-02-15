@@ -57,14 +57,16 @@ const Navbar = () => {
             className="h-32 w-32"
           />
         </Link>
-        <nav className="ml-auto flex items-center gap-4 sm:gap-6">
-          <Link 
-            className="text-sm font-medium hover:underline underline-offset-4 py-2" 
-            href="/feed"
-          >
-            Feed
+        <Link href="/feed">
+                      <Button 
+                        size="lg" 
+                        variant="outline" 
+                        className="text-lg px-8 py-6 text-orange-600 border-orange-600 hover:bg-orange-600 hover:text-white"
+                      >
+                        Explore
+                      </Button>
           </Link>
-
+        <nav className="ml-auto flex items-center gap-4 sm:gap-6">
           {user ? (
             <div className="flex items-center space-x-4">
               <Link href={`/user/${user.userName}`} className="flex items-center space-x-2">

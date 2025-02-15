@@ -40,9 +40,13 @@ export default function LandingPage() {
                         Sign up
                       </Button>
                     </Link>
-                    <Link href="#creator">
-                      <Button size="lg" variant="outline" className="text-lg px-8 py-6">
-                        Learn More
+                    <Link href="/feed">
+                      <Button 
+                        size="lg" 
+                        variant="outline" 
+                        className="text-lg px-8 py-6 text-orange-600 border-orange-600 hover:bg-orange-600 hover:text-white"
+                      >
+                        Explore
                       </Button>
                     </Link>
                   </div>
