@@ -8,7 +8,7 @@ const Navbar = () => {
           <img 
             src="/welllogo.svg" 
             alt="well Logo" 
-            className="h-auto w-auto"
+            className="h-32 w-32"
           />
         </Link>
         <nav className="ml-auto flex items-center gap-4 sm:gap-6">

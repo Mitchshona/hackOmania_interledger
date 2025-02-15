@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import CreatorCard from "@/components/CreatorCard"
 import { Smartphone, Users, BarChart, Shield, Calendar, Flame } from "lucide-react"
 import Navbar from "@/components/ui/navbar"
 
@@ -46,7 +47,7 @@ export default function LandingPage() {
         <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-white">
           <div className="container mx-auto max-w-7xl px-4 md:px-6 flex flex-col items-center">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
-              What is well?
+              What is Well?
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               <FeatureCard
@@ -72,33 +73,47 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
-        <section className="w-full py-12 md:py-24 lg:py-32 bg-white">
+
+        <CreatorCard />
+
+
+        <section id="supporters" className="w-full py-12 md:py-24 lg:py-32 bg-gray-50">
           <div className="container mx-auto max-w-7xl px-4 md:px-6 flex flex-col items-center">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
-              Track Your Progress
+              Be a supporter
             </h2>
-            <div className="flex flex-col md:flex-row gap-8 items-center justify-center w-full">
-              <div className="bg-blue-50 p-8 rounded-xl flex flex-col items-center space-y-4 w-full md:w-80">
-                <div className="bg-blue-500 p-4 rounded-full">
-                  <Flame className="h-8 w-8 text-white" />
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+              <div className="bg-white p-8 rounded-xl shadow-sm flex flex-col items-center space-y-4">
+                <div className="bg-purple-500 p-4 rounded-full">
+                  <Users className="h-8 w-8 text-white" />
                 </div>
                 <div className="text-center">
-                  <h3 className="text-4xl font-bold text-blue-600 mb-2">7 Days</h3>
-                  <p className="text-gray-600">Current Streak</p>
+                  <h3 className="text-4xl font-bold text-purple-600 mb-2">150+</h3>
+                  <p className="text-gray-600">Community Members</p>
                 </div>
               </div>
-              <div className="bg-green-50 p-8 rounded-xl flex flex-col items-center space-y-4 w-full md:w-80">
-                <div className="bg-green-500 p-4 rounded-full">
-                  <Calendar className="h-8 w-8 text-white" />
+              <div className="bg-white p-8 rounded-xl shadow-sm flex flex-col items-center space-y-4">
+                <div className="bg-orange-500 p-4 rounded-full">
+                  <BarChart className="h-8 w-8 text-white" />
                 </div>
                 <div className="text-center">
-                  <h3 className="text-4xl font-bold text-green-600 mb-2">30 Days</h3>
-                  <p className="text-gray-600">Longest Streak</p>
+                  <h3 className="text-4xl font-bold text-orange-600 mb-2">45%</h3>
+                  <p className="text-gray-600">Screen Time Reduced</p>
+                </div>
+              </div>
+              <div className="bg-white p-8 rounded-xl shadow-sm flex flex-col items-center space-y-4">
+                <div className="bg-teal-500 p-4 rounded-full">
+                  <Shield className="h-8 w-8 text-white" />
+                </div>
+                <div className="text-center">
+                  <h3 className="text-4xl font-bold text-teal-600 mb-2">24/7</h3>
+                  <p className="text-gray-600">Community Support</p>
                 </div>
               </div>
             </div>
           </div>
         </section>
+
         <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-gray-50">
           <div className="container mx-auto max-w-7xl px-4 md:px-6 flex flex-col items-center">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
@@ -120,6 +135,7 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
+
         <section id="cta" className="w-full py-12 md:py-24 lg:py-32 bg-blue-600 text-white">
           <div className="container mx-auto max-w-7xl px-4 md:px-6 flex items-center justify-center">
             <div className="flex flex-col items-center space-y-4 text-center">
