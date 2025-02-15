@@ -14,15 +14,9 @@ const Navbar = () => {
         <nav className="ml-auto flex items-center gap-4 sm:gap-6">
           <Link 
             className="text-sm font-medium hover:underline underline-offset-4 py-2" 
-            href="#features"
+            href="/feed"
           >
-            Features
-          </Link>
-          <Link 
-            className="text-sm font-medium hover:underline underline-offset-4 py-2" 
-            href="#testimonials"
-          >
-            Testimonials
+            Feed
           </Link>
           <Link 
             className="text-sm font-medium hover:underline underline-offset-4 py-2" 
@@ -32,7 +26,7 @@ const Navbar = () => {
           </Link>
           <Link href="/sign-up">
             <Button className="bg-red-600 hover:bg-red-800 text-white">
-              Start your journey
+              Sign up
             </Button>
           </Link>
         </nav>
