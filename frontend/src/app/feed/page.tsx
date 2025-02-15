@@ -6,6 +6,7 @@ import { ImageUploadButton } from "@/components/feed/ImageUploadButton"
 import Navbar from "@/components/ui/navbar"
 import { db } from "@/app/config/firebase-config"
 import { collection, getDocs, query, orderBy } from "firebase/firestore"
+import { Skeleton } from "@/components/ui/skeleton"
 
 // Define the Post type
 interface Post {
@@ -61,7 +62,28 @@ export default function FeedPage() {
         <h1 className="text-3xl font-bold mb-6 mr-3">Social Feed</h1>
         <ImageUploadButton onPostUploaded={fetchPosts} />
       </div>
-      {loading && <p>Loading Posts. Please Wait...</p>}
+      {loading && (
+        <div className="space-y-8">
+          {[1, 2, 3].map((index) => (
+            <div key={index} className="p-6 bg-white rounded-lg shadow-md">
+              <div className="flex items-center space-x-4 mb-4">
+                <Skeleton className="h-12 w-12 rounded-full" />
+                <Skeleton className="h-4 w-32" />
+              </div>
+              <Skeleton className="h-[300px] w-full mb-4" />
+              <div className="space-y-2">
+                <Skeleton className="h-4 w-3/4" />
+                <Skeleton className="h-4 w-1/2" />
+              </div>
+              <div className="flex space-x-4 mt-4">
+                <Skeleton className="h-8 w-16" />
+                <Skeleton className="h-8 w-16" />
+                <Skeleton className="h-8 w-16" />
+              </div>
+            </div>
+          ))}
+        </div>
+      )}
       {error && <p className="text-red-500">{error}</p>}
       <div className="space-y-8">
         {posts.map((post) => (
