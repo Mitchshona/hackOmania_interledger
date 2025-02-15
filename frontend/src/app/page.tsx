@@ -13,39 +13,38 @@ interface FeatureCardProps {
 
 export default function LandingPage() {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col min-h-screen relative snap-y snap-mandatory overflow-y-auto h-screen">
       <main className="flex-1">
-        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-blue-100 flex items-center justify-center min-h-[calc(100vh-5rem)]">
-          <div className="w-full">
-            <div className="container mx-auto px-4">
-              <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
-                <img
-                  src="/hero-image.jpg"
-                  alt="Breaking free from internet addiction"
-                  className="w-64 h-64 object-cover rounded-lg shadow-lg"
-                />
-                <div className="flex flex-col items-center md:items-start space-y-4 text-center md:text-left">
-                  <div className="space-y-2">
-                    <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-                      Break Free from Internet Addiction
-                    </h1>
-                    <p className="max-w-[700px] text-gray-500 md:text-xl">
-                      Share your internet addiction recovery journey on well and receive support from the community.
-                    </p>
-                  </div>
-                  <div className="space-x-4">
-                    <Link href="/feed">
-                      <Button className="bg-red-600 hover:bg-red-800 text-white">Start your journey</Button>
-                    </Link>
-                    <Button variant="outline">Learn More</Button>
-                  </div>
+        <section className="snap-start w-full h-screen sticky top-0 bg-blue-100 flex items-center justify-center">
+          <div className="w-full container mx-auto px-4 z-10">
+            <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+              <img
+                src="/hero-image.jpg"
+                alt="Breaking free from internet addiction"
+                className="w-64 h-64 object-cover rounded-lg shadow-lg"
+              />
+              <div className="flex flex-col items-center md:items-start space-y-4 text-center md:text-left">
+                <div className="space-y-2">
+                  <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
+                    Break Free from Internet Addiction
+                  </h1>
+                  <p className="max-w-[700px] text-gray-500 md:text-xl">
+                    Share your internet addiction recovery journey on well and receive support from the community.
+                  </p>
+                </div>
+                <div className="space-x-4">
+                  <Link href="/feed">
+                    <Button className="bg-red-600 hover:bg-red-800 text-white">Start your journey</Button>
+                  </Link>
+                  <Button variant="outline">Learn More</Button>
                 </div>
               </div>
             </div>
           </div>
         </section>
-        <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-white">
-          <div className="container mx-auto max-w-7xl px-4 md:px-6 flex flex-col items-center">
+
+        <section id="features" className="snap-start w-full h-screen sticky top-0 bg-white flex items-center justify-center">
+          <div className="container mx-auto max-w-7xl px-4 md:px-6 flex flex-col items-center z-10">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
               What is Well?
             </h2>
@@ -76,8 +75,7 @@ export default function LandingPage() {
 
         <CreatorCard />
 
-
-        <section id="supporters" className="w-full py-12 md:py-24 lg:py-32 bg-gray-50">
+        <section id="supporters" className="snap-start w-full h-screen sticky top-0 bg-gray-50 flex items-center justify-center">
           <div className="container mx-auto max-w-7xl px-4 md:px-6 flex flex-col items-center">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
               Be a supporter
@@ -114,7 +112,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-gray-50">
+        <section id="testimonials" className="snap-start w-full h-screen sticky top-0 bg-gray-50 flex items-center justify-center">
           <div className="container mx-auto max-w-7xl px-4 md:px-6 flex flex-col items-center">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
               Success Stories
@@ -136,46 +134,51 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <section id="cta" className="w-full py-12 md:py-24 lg:py-32 bg-blue-600 text-white">
-          <div className="container mx-auto max-w-7xl px-4 md:px-6 flex items-center justify-center">
-            <div className="flex flex-col items-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-                  Start Your Journey Today
-                </h2>
-                <p className="mx-auto max-w-[600px] text-blue-100 md:text-xl">
-                  Join thousands of teens taking control of their digital lives. Sign up for well and begin your
-                  path to a balanced lifestyle.
-                </p>
-              </div>
-              <div className="w-full max-w-sm space-y-2">
-                <form className="flex space-x-2">
-                  <Input 
-                    className="flex-1 placeholder:text-gray-300" 
-                    placeholder="your@email.com" 
-                    type="email" 
-                  />
-                  <Button type="submit">Sign Up</Button>
-                </form>
-                <p className="text-xs text-blue-200">
-                  By signing up, you agree to our Terms of Service and Privacy Policy.
-                </p>
+        <section id="cta" className="snap-start w-full h-screen sticky top-0 bg-blue-600 text-white flex flex-col justify-between">
+          <div className="flex-1 flex items-center justify-center">
+            <div className="container mx-auto max-w-7xl px-4 md:px-6 flex items-center justify-center">
+              <div className="flex flex-col items-center space-y-4 text-center">
+                <div className="space-y-2">
+                  <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                    Start Your Journey Today
+                  </h2>
+                  <p className="mx-auto max-w-[600px] text-blue-100 md:text-xl">
+                    Join thousands of teens taking control of their digital lives. Sign up for well and begin your
+                    path to a balanced lifestyle.
+                  </p>
+                </div>
+                <div className="w-full max-w-sm space-y-2">
+                  <form className="flex space-x-2">
+                    <Input 
+                      className="flex-1 placeholder:text-gray-300" 
+                      placeholder="your@email.com" 
+                      type="email" 
+                    />
+                    <Button type="submit">Sign Up</Button>
+                  </form>
+                  <p className="text-xs text-blue-200">
+                    By signing up, you agree to our Terms of Service and Privacy Policy.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
+          
+          <footer className="w-full border-t border-blue-500">
+            <div className="flex flex-col gap-2 sm:flex-row py-6 items-center justify-between px-4 md:px-6 max-w-7xl mx-auto">
+              <p className="text-xs text-blue-200">© 2024 well. All rights reserved.</p>
+              <nav className="sm:ml-auto flex gap-4 sm:gap-6">
+                <Link className="text-xs hover:underline underline-offset-4 text-blue-200" href="#">
+                  Terms of Service
+                </Link>
+                <Link className="text-xs hover:underline underline-offset-4 text-blue-200" href="#">
+                  Privacy
+                </Link>
+              </nav>
+            </div>
+          </footer>
         </section>
       </main>
-      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center justify-between px-4 md:px-6 border-t max-w-7xl mx-auto">
-        <p className="text-xs text-gray-500">© 2024 well. All rights reserved.</p>
-        <nav className="sm:ml-auto flex gap-4 sm:gap-6">
-          <Link className="text-xs hover:underline underline-offset-4" href="#">
-            Terms of Service
-          </Link>
-          <Link className="text-xs hover:underline underline-offset-4" href="#">
-            Privacy
-          </Link>
-        </nav>
-      </footer>
     </div>
   )
 }
