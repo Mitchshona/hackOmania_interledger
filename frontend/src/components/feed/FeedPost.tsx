@@ -24,7 +24,9 @@ interface FeedPostProps {
 export function FeedPost({ post }: FeedPostProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [donationAmount, setDonationAmount] = useState('')
-  const [walletId, setWalletId] = useState('')
+  const [walletAddress, setWalletAddress] = useState('')
+  const [privateKeyPath, setPrivateKeyPath] = useState('')
+  const [keyId, setKeyId] = useState('')
   const [donationSuccess, setDonationSuccess] = useState(false)
 
   const handleDonate = () => {
@@ -34,7 +36,9 @@ export function FeedPost({ post }: FeedPostProps) {
       setDonationSuccess(false)
       setIsOpen(false)
       setDonationAmount('')
-      setWalletId('')
+      setWalletAddress('')
+      setPrivateKeyPath('')
+      setKeyId('')
     }, 2000)
   }
 
@@ -94,9 +98,23 @@ export function FeedPost({ post }: FeedPostProps) {
                   />
                   <Input
                     type="text"
-                    placeholder="Enter your wallet ID"
-                    value={walletId}
-                    onChange={(e) => setWalletId(e.target.value)}
+                    placeholder="Enter your wallet address"
+                    value={walletAddress}
+                    onChange={(e) => setWalletAddress(e.target.value)}
+                    className="mb-4"
+                  />
+                  <Input
+                    type="text"
+                    placeholder="Enter your private key path"
+                    value={privateKeyPath}
+                    onChange={(e) => setPrivateKeyPath(e.target.value)}
+                    className="mb-4"
+                  />
+                  <Input
+                    type="text"
+                    placeholder="Enter your key ID"
+                    value={keyId}
+                    onChange={(e) => setKeyId(e.target.value)}
                     className="mb-4"
                   />
                   <Button onClick={handleDonate}>Donate</Button>
