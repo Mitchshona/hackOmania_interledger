@@ -1,6 +1,8 @@
-import express from "express";
-// server.js
-import 'dotenv/config';  // FIRST IMPORT
+import express from 'express';
+import 'dotenv/config';
+import bodyParser from 'body-parser';
+import { OpenAIHelper } from './utils/openai.js';
+import { OpenaiService } from './utils/openai.service.js';
 import { createAuthenticatedClient, isFinalizedGrant } from "@interledger/open-payments";
 import { grantPromise } from "./config/createingrant.js";
 import { incomingPaymentPromise } from "./config/createinpay.js";
@@ -10,9 +12,12 @@ import { createOutgoingPayment } from "./config/createoutpay.js";
 import { getFirestore, collection, getDocs } from "firebase/firestore";
 import fs from 'fs';
 import axios from 'axios';
+
 const app = express();
 app.use(express.json());
 const PORT = 5600;
+
+const backend_endpoint = process.env.BACKEND_ENDPOINT;
 
 const backend_endpoint = process.env.BACKEND_ENDPOINT;
 
@@ -21,10 +26,9 @@ app.get('/', (req, res)=>{
     res.send("Welcome to root URL of Server");
 });
 
-app.post('/api/userpost', (req, res)=>{
+app.post('/api/userpost', (req, res) => {
     const { image, uid } = req.body;
-    res.status(200);
-    res.send("Welcome to root URL of Server");
+    res.status(200).send("Received user data: UID: " + uid);
 });
 
 app.post('/createingrant', async (req, res) => {

@@ -1,10 +1,12 @@
 import Image from "next/image"
+import { useState } from 'react'
 import { Heart, MessageCircle, DollarSign } from 'lucide-react'
 import { Button } from "@/components/ui/button"
-
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
+import { Input } from "@/components/ui/input"
 
 interface Post {
-  id: number
+  id: string
   user: string
   avatar: string
   image: string
@@ -19,6 +21,20 @@ interface FeedPostProps {
 }
 
 export function FeedPost({ post }: FeedPostProps) {
+  const [isOpen, setIsOpen] = useState(false)
+  const [donationAmount, setDonationAmount] = useState('')
+  const [donationSuccess, setDonationSuccess] = useState(false)
+
+  const handleDonate = () => {
+    // Here you would typically handle the actual donation process
+    setDonationSuccess(true)
+    setTimeout(() => {
+      setDonationSuccess(false)
+      setIsOpen(false)
+      setDonationAmount('')
+    }, 2000)
+  }
+
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden">
       <div className="p-4 flex items-center">
@@ -51,10 +67,34 @@ export function FeedPost({ post }: FeedPostProps) {
               {post.comments}
             </Button>
           </div>
-          <Button variant="outline" size="sm">
-            <DollarSign className="w-5 h-5 mr-1" />
-            Donate ({post.donations})
-          </Button>
+          <Dialog open={isOpen} onOpenChange={setIsOpen}>
+            <DialogTrigger asChild>
+              <Button variant="outline" size="sm">
+                <DollarSign className="w-5 h-5 mr-1" />
+                Donate
+              </Button>
+            </DialogTrigger>
+            <DialogContent>
+              <DialogHeader>
+                <DialogTitle>Make a Donation</DialogTitle>
+              </DialogHeader>
+              {!donationSuccess ? (
+                <>
+                  <Input
+                    type="number"
+                    placeholder="Enter amount (SGD)"
+                    value={donationAmount}
+                    onChange={(e) => setDonationAmount(e.target.value)}
+                  />
+                  <Button onClick={handleDonate}>Donate</Button>
+                </>
+              ) : (
+                <div className="text-center text-green-600 font-bold">
+                  Donation Success!
+                </div>
+              )}
+            </DialogContent>
+          </Dialog>
         </div>
         <div className="text-sm text-gray-500">
           Donations encourage less screen time and support digital well-being initiatives.
@@ -63,4 +103,3 @@ export function FeedPost({ post }: FeedPostProps) {
     </div>
   )
 }
-

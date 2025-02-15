@@ -1,26 +1,45 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Smartphone, Users, BarChart, Shield } from "lucide-react"
+import CreatorCard from "@/components/CreatorCard"
+import { Smartphone, Users, BarChart, Shield, Calendar, Flame } from "lucide-react"
 import Navbar from "@/components/ui/navbar"
+
+interface FeatureCardProps {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}
+
 export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen">
       <main className="flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-blue-100 flex items-center justify-center min-h-[calc(100vh-5rem)]">
           <div className="w-full">
-            <div className="flex flex-col items-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-                  Break Free from Internet Addiction
-                </h1>
-                <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl">
-                  Join Wellquit, the supportive community where teens share their journey to a balanced digital life.
-                </p>
-              </div>
-              <div className="space-x-4">
-                <Button>Get Started</Button>
-                <Button variant="outline">Learn More</Button>
+            <div className="container mx-auto px-4">
+              <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+                <img
+                  src="/hero-image.jpg"
+                  alt="Breaking free from internet addiction"
+                  className="w-64 h-64 object-cover rounded-lg shadow-lg"
+                />
+                <div className="flex flex-col items-center md:items-start space-y-4 text-center md:text-left">
+                  <div className="space-y-2">
+                    <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
+                      Break Free from Internet Addiction
+                    </h1>
+                    <p className="max-w-[700px] text-gray-500 md:text-xl">
+                      Share your internet addiction recovery journey on well and receive support from the community.
+                    </p>
+                  </div>
+                  <div className="space-x-4">
+                    <Link href="/feed">
+                      <Button className="bg-red-600 hover:bg-red-800 text-white">Start your journey</Button>
+                    </Link>
+                    <Button variant="outline">Learn More</Button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -28,7 +47,7 @@ export default function LandingPage() {
         <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-white">
           <div className="container mx-auto max-w-7xl px-4 md:px-6 flex flex-col items-center">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
-              Why Choose Wellquit?
+              What is Well?
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               <FeatureCard
@@ -54,6 +73,47 @@ export default function LandingPage() {
             </div>
           </div>
         </section>
+
+        <CreatorCard />
+
+
+        <section id="supporters" className="w-full py-12 md:py-24 lg:py-32 bg-gray-50">
+          <div className="container mx-auto max-w-7xl px-4 md:px-6 flex flex-col items-center">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
+              Be a supporter
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
+              <div className="bg-white p-8 rounded-xl shadow-sm flex flex-col items-center space-y-4">
+                <div className="bg-purple-500 p-4 rounded-full">
+                  <Users className="h-8 w-8 text-white" />
+                </div>
+                <div className="text-center">
+                  <h3 className="text-4xl font-bold text-purple-600 mb-2">150+</h3>
+                  <p className="text-gray-600">Community Members</p>
+                </div>
+              </div>
+              <div className="bg-white p-8 rounded-xl shadow-sm flex flex-col items-center space-y-4">
+                <div className="bg-orange-500 p-4 rounded-full">
+                  <BarChart className="h-8 w-8 text-white" />
+                </div>
+                <div className="text-center">
+                  <h3 className="text-4xl font-bold text-orange-600 mb-2">45%</h3>
+                  <p className="text-gray-600">Screen Time Reduced</p>
+                </div>
+              </div>
+              <div className="bg-white p-8 rounded-xl shadow-sm flex flex-col items-center space-y-4">
+                <div className="bg-teal-500 p-4 rounded-full">
+                  <Shield className="h-8 w-8 text-white" />
+                </div>
+                <div className="text-center">
+                  <h3 className="text-4xl font-bold text-teal-600 mb-2">24/7</h3>
+                  <p className="text-gray-600">Community Support</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
         <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-gray-50">
           <div className="container mx-auto max-w-7xl px-4 md:px-6 flex flex-col items-center">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
@@ -61,7 +121,7 @@ export default function LandingPage() {
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               <TestimonialCard
-                quote="Wellquit helped me regain control of my life. I've rediscovered my passion for outdoor activities!"
+                quote="well helped me regain control of my life. I've rediscovered my passion for outdoor activities!"
                 author="Alex, 17"
               />
               <TestimonialCard
@@ -69,12 +129,13 @@ export default function LandingPage() {
                 author="Sam, 15"
               />
               <TestimonialCard
-                quote="I've improved my grades and relationships since joining Wellquit. It's been life-changing!"
+                quote="I've improved my grades and relationships since joining well. It's been life-changing!"
                 author="Jordan, 16"
               />
             </div>
           </div>
         </section>
+
         <section id="cta" className="w-full py-12 md:py-24 lg:py-32 bg-blue-600 text-white">
           <div className="container mx-auto max-w-7xl px-4 md:px-6 flex items-center justify-center">
             <div className="flex flex-col items-center space-y-4 text-center">
@@ -83,13 +144,17 @@ export default function LandingPage() {
                   Start Your Journey Today
                 </h2>
                 <p className="mx-auto max-w-[600px] text-blue-100 md:text-xl">
-                  Join thousands of teens taking control of their digital lives. Sign up for Wellquit and begin your
+                  Join thousands of teens taking control of their digital lives. Sign up for well and begin your
                   path to a balanced lifestyle.
                 </p>
               </div>
               <div className="w-full max-w-sm space-y-2">
                 <form className="flex space-x-2">
-                  <Input className="flex-1" placeholder="Enter your email" type="email" />
+                  <Input 
+                    className="flex-1 placeholder:text-gray-300" 
+                    placeholder="your@email.com" 
+                    type="email" 
+                  />
                   <Button type="submit">Sign Up</Button>
                 </form>
                 <p className="text-xs text-blue-200">
@@ -101,7 +166,7 @@ export default function LandingPage() {
         </section>
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center justify-between px-4 md:px-6 border-t max-w-7xl mx-auto">
-        <p className="text-xs text-gray-500">© 2024 Wellquit. All rights reserved.</p>
+        <p className="text-xs text-gray-500">© 2024 well. All rights reserved.</p>
         <nav className="sm:ml-auto flex gap-4 sm:gap-6">
           <Link className="text-xs hover:underline underline-offset-4" href="#">
             Terms of Service
@@ -115,7 +180,7 @@ export default function LandingPage() {
   )
 }
 
-function FeatureCard({ icon, title, description }) {
+function FeatureCard({ icon, title, description }: FeatureCardProps) {
   return (
     <div className="flex flex-col items-center text-center">
       <div className="mb-4">{icon}</div>
@@ -125,11 +190,25 @@ function FeatureCard({ icon, title, description }) {
   )
 }
 
-function TestimonialCard({ quote, author }) {
+interface TestimonialCardProps {
+  quote: string;
+  author: string;
+}
+
+function TestimonialCard({ quote, author }: TestimonialCardProps) {
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
-      <p className="text-gray-600 mb-4">"{quote}"</p>
-      <p className="text-gray-800 font-semibold">- {author}</p>
+      <div className="flex flex-col items-center">
+        <img
+          src="/success.png"
+          alt="Testimonial hero image" 
+          width={200}
+          height={200}
+          className="rounded-full mb-4 object-cover w-[200px] h-[200px]"
+        />
+        <p className="text-gray-600 mb-4">"{quote}"</p>
+        <p className="text-gray-800 font-semibold">- {author}</p>
+      </div>
     </div>
   )
 }
