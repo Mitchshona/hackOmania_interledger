@@ -1,4 +1,6 @@
 import { Calendar, Users } from 'lucide-react'
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
 
 type StatCardProps = {
   icon: 'streak' | 'longest'
@@ -62,15 +64,22 @@ const SupporterCard = () => {
             />
           </div>
           <div className="max-w-xl space-y-4 text-gray-300">
-            <h3 className="text-2xl font-semibold text-white">Track Your Creative Journey</h3>
+            <h3 className="text-2xl font-semibold text-white">Be supported in your recovery journey.</h3>
             <p>
-              Stay motivated and consistent with your creative work by tracking your daily streaks. 
-              Whether you're writing, designing, or coding, maintaining a streak helps build lasting habits.
-            </p>
+              Create better digital use habits by sharing your daily experiences with addiction recovery            </p>
             <p>
-              Your current streak shows your ongoing commitment, while your longest streak 
-              represents your best run of consistent creativity. Keep pushing to beat your record!
+              Be rewarded for keeping a streak of low screen time usage.
             </p>
+
+                    <Link href="/feed" className='mt-8 block'>
+                      <Button 
+                        size="lg" 
+                        variant="outline" 
+                        className="text-lg px-8 py-6 text-green-600 hover:bg-green-800 "
+                      >
+                        Explore
+                      </Button>
+                    </Link>
           </div>
         </div>
       </div>

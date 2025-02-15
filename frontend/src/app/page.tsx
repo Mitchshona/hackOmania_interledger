@@ -112,7 +112,7 @@ export default function LandingPage() {
             </div>
           </section>
 
-          <section id="cta" className="snap-start w-full h-screen sticky top-0 bg-blue-600 text-white flex flex-col justify-between">
+          <section id="cta" className="snap-start w-full h-screen sticky top-0 bg-blue-200 text-black flex flex-col justify-between">
             <div className="flex-1 flex items-center justify-center">
               <div className="container mx-auto max-w-7xl px-4 md:px-6 flex items-center justify-center">
                 <div className="flex flex-col items-center space-y-4 text-center">
@@ -120,20 +120,19 @@ export default function LandingPage() {
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                       Start Your Journey Today
                     </h2>
-                    <p className="mx-auto max-w-[600px] text-blue-100 md:text-xl">
+                    <p className="mx-auto max-w-[600px] text-gray-500 md:text-xl">
                       Join thousands of teens taking control of their digital lives. Sign up for well and begin your
                       path to a balanced lifestyle.
                     </p>
                   </div>
                   <div className="flex flex-col items-center space-y-2">
-                    <Link href="/sign-up">
-                      <Button 
-                        size="lg" 
-                        className="px-12 bg-red-600 hover:bg-red-800 text-white text-lg"
-                      >
+
+                    <Link href="/sign-up" className='mt-4 block'>
+                      <Button size="lg" className="bg-blue-600 hover:bg-blue-800 text-white text-lg px-8 py-6">
                         Sign up
                       </Button>
                     </Link>
+
                     <p className="text-xs text-blue-200">
                       By signing up, you agree to our Terms of Service and Privacy Policy.
                     </p>

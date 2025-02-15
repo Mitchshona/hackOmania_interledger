@@ -73,11 +73,11 @@ const CreatorCard = () => {
             <p>
               Be rewarded for keeping a streak of low screen time usage.
             </p>
-            <Link href="/sign-up" className="mt-8 block">
-              <Button size="lg" className="bg-red-600 hover:bg-red-800 text-white text-lg px-8 py-6">
-                Sign up
-              </Button>
-            </Link>
+                    <Link href="/sign-up" className='mt-8 block'>
+                      <Button size="lg" className="bg-blue-600 hover:bg-blue-800 text-white text-lg px-8 py-6">
+                        Sign up
+                      </Button>
+                    </Link>
           </div>
         </div>
       </div>
