@@ -12,7 +12,7 @@ const PRIVATE_KEY_PATH = process.env.PRIVATE_KEY_PATH;
 const KEY_ID = process.env.KEY_ID;
 
   // Use in async context
-const oGrant = await outGrant;
+const oGrant = await outGrant();
 
 console.log("Grant continuation token:", oGrant.continue.accessToken);
 console.log("Grant continuation URI:", oGrant.continue.uri);
