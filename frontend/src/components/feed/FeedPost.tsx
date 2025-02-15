@@ -1,6 +1,6 @@
 import Image from "next/image"
-import { Heart, MessageCircle, DollarSign } from "lucide-react"
-import { Button } from "@shadcn/ui";
+import { Heart, MessageCircle, DollarSign } from 'lucide-react'
+import { Button } from "@/components/ui/button"
 
 interface Post {
   id: number
@@ -30,7 +30,13 @@ export function FeedPost({ post }: FeedPostProps) {
         />
         <span className="font-semibold">{post.user}</span>
       </div>
-      <Image src={post.image || "/placeholder.svg"} alt="Post image" width={400} height={400} layout="responsive" />
+      <Image 
+        src={post.image || "/placeholder.svg"} 
+        alt="Post image" 
+        width={400} 
+        height={400} 
+        className="w-full h-auto"
+      />
       <div className="p-4">
         <p className="mb-4">{post.caption}</p>
         <div className="flex justify-between items-center mb-4">
