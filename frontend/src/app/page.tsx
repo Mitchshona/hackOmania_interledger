@@ -18,27 +18,33 @@ export default function LandingPage() {
       <div className="landing-page-scroll">
         <main className="flex-1">
           <section className="snap-start w-full h-screen sticky top-0 bg-blue-100 flex items-center justify-center">
-            <div className="w-full container mx-auto px-4 z-10">
-              <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+            <div className="w-4/5 max-w-7xl mx-auto px-4 z-10">
+              <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12 justify-center">
                 <img
                   src="/hero-image.jpg"
                   alt="Breaking free from internet addiction"
                   className="w-64 h-64 object-cover rounded-lg shadow-lg"
                 />
-                <div className="flex flex-col items-center md:items-start space-y-4 text-center md:text-left">
+                <div className="flex flex-col items-start space-y-4 text-left">
                   <div className="space-y-2">
-                    <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
+                    <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl md:text-6xl lg:text-7xl/none">
                       Break Free from Internet Addiction
                     </h1>
-                    <p className="max-w-[700px] text-gray-500 md:text-xl">
+                    <p className="max-w-[700px] text-gray-500 md:text-2xl lg:text-3xl">
                       Share your internet addiction recovery journey on well and receive support from the community.
                     </p>
                   </div>
                   <div className="space-x-4">
                     <Link href="/sign-up">
-                      <Button className="bg-red-600 hover:bg-red-800 text-white">Sign up</Button>
+                      <Button size="lg" className="bg-red-600 hover:bg-red-800 text-white text-lg px-8 py-6">
+                        Sign up
+                      </Button>
                     </Link>
-                    <Button variant="outline">Learn More</Button>
+                    <Link href="#creator">
+                      <Button size="lg" variant="outline" className="text-lg px-8 py-6">
+                        Learn More
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               </div>
