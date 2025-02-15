@@ -1,101 +1,153 @@
-import Image from "next/image";
+import Link from "next/link"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Smartphone, Users, BarChart, Shield } from "lucide-react"
 
-export default function Home() {
+export default function LandingPage() {
   return (
-    <div className="grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20 font-[family-name:var(--font-geist-sans)]">
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="list-inside list-decimal text-sm text-center sm:text-left font-[family-name:var(--font-geist-mono)]">
-          <li className="mb-2">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] px-1 py-0.5 rounded font-semibold">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li>Save and see your changes instantly.</li>
-        </ol>
-
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:min-w-44"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
-        </div>
+    <div className="flex flex-col min-h-screen">
+      <header className="px-4 lg:px-6 h-20 fixed top-0 left-0 right-0 z-10 bg-white flex items-center justify-between max-w-7xl mx-auto w-full">
+        <Link className="flex items-center justify-center" href="#">
+          <Smartphone className="h-6 w-6 text-blue-600" />
+          <span className="ml-2 text-2xl font-bold text-gray-900">Wellquit</span>
+        </Link>
+        <nav className="ml-auto flex gap-4 sm:gap-6">
+          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#features">
+            Features
+          </Link>
+          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#testimonials">
+            Testimonials
+          </Link>
+          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#about">
+            About
+          </Link>
+        </nav>
+      </header>
+      <main className="flex-1 pt-20">
+        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-blue-50 flex items-center justify-center min-h-[calc(100vh-5rem)]">
+          <div className="w-full">
+            <div className="flex flex-col items-center space-y-4 text-center">
+              <div className="space-y-2">
+                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
+                  Break Free from Internet Addiction
+                </h1>
+                <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl">
+                  Join Wellquit, the supportive community where teens share their journey to a balanced digital life.
+                </p>
+              </div>
+              <div className="space-x-4">
+                <Button>Get Started</Button>
+                <Button variant="outline">Learn More</Button>
+              </div>
+            </div>
+          </div>
+        </section>
+        <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-white">
+          <div className="container mx-auto max-w-7xl px-4 md:px-6 flex flex-col items-center">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
+              Why Choose Wellquit?
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+              <FeatureCard
+                icon={<Users className="h-10 w-10 text-blue-600" />}
+                title="Supportive Community"
+                description="Connect with peers who understand your struggles and celebrate your victories."
+              />
+              <FeatureCard
+                icon={<BarChart className="h-10 w-10 text-green-600" />}
+                title="Track Your Progress"
+                description="Visualize your journey with intuitive charts and milestone tracking."
+              />
+              <FeatureCard
+                icon={<Shield className="h-10 w-10 text-purple-600" />}
+                title="Safe Space"
+                description="A moderated platform ensuring a positive and encouraging environment."
+              />
+              <FeatureCard
+                icon={<Smartphone className="h-10 w-10 text-red-600" />}
+                title="Digital Detox Tips"
+                description="Access expert advice and practical strategies for managing screen time."
+              />
+            </div>
+          </div>
+        </section>
+        <section id="testimonials" className="w-full py-12 md:py-24 lg:py-32 bg-gray-50">
+          <div className="container mx-auto max-w-7xl px-4 md:px-6 flex flex-col items-center">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
+              Success Stories
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+              <TestimonialCard
+                quote="Wellquit helped me regain control of my life. I've rediscovered my passion for outdoor activities!"
+                author="Alex, 17"
+              />
+              <TestimonialCard
+                quote="The community here is so supportive. I don't feel alone in my struggle anymore."
+                author="Sam, 15"
+              />
+              <TestimonialCard
+                quote="I've improved my grades and relationships since joining Wellquit. It's been life-changing!"
+                author="Jordan, 16"
+              />
+            </div>
+          </div>
+        </section>
+        <section id="cta" className="w-full py-12 md:py-24 lg:py-32 bg-blue-600 text-white">
+          <div className="container mx-auto max-w-7xl px-4 md:px-6 flex items-center justify-center">
+            <div className="flex flex-col items-center space-y-4 text-center">
+              <div className="space-y-2">
+                <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
+                  Start Your Journey Today
+                </h2>
+                <p className="mx-auto max-w-[600px] text-blue-100 md:text-xl">
+                  Join thousands of teens taking control of their digital lives. Sign up for Wellquit and begin your
+                  path to a balanced lifestyle.
+                </p>
+              </div>
+              <div className="w-full max-w-sm space-y-2">
+                <form className="flex space-x-2">
+                  <Input className="flex-1" placeholder="Enter your email" type="email" />
+                  <Button type="submit">Sign Up</Button>
+                </form>
+                <p className="text-xs text-blue-200">
+                  By signing up, you agree to our Terms of Service and Privacy Policy.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
       </main>
-      <footer className="row-start-3 flex gap-6 flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
+      <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center justify-between px-4 md:px-6 border-t max-w-7xl mx-auto">
+        <p className="text-xs text-gray-500">© 2024 Wellquit. All rights reserved.</p>
+        <nav className="sm:ml-auto flex gap-4 sm:gap-6">
+          <Link className="text-xs hover:underline underline-offset-4" href="#">
+            Terms of Service
+          </Link>
+          <Link className="text-xs hover:underline underline-offset-4" href="#">
+            Privacy
+          </Link>
+        </nav>
       </footer>
     </div>
-  );
+  )
 }
+
+function FeatureCard({ icon, title, description }) {
+  return (
+    <div className="flex flex-col items-center text-center">
+      <div className="mb-4">{icon}</div>
+      <h3 className="text-xl font-bold mb-2">{title}</h3>
+      <p className="text-gray-500">{description}</p>
+    </div>
+  )
+}
+
+function TestimonialCard({ quote, author }) {
+  return (
+    <div className="bg-white p-6 rounded-lg shadow-md">
+      <p className="text-gray-600 mb-4">"{quote}"</p>
+      <p className="text-gray-800 font-semibold">- {author}</p>
+    </div>
+  )
+}
+
