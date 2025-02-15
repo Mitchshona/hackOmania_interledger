@@ -42,23 +42,36 @@ const CreatorCard = () => {
   return (
     <section 
       id="creators" 
-      className="w-full py-12 md:py-24 lg:py-32 bg-white"
+      className="snap-start w-full h-screen sticky top-0 bg-blue-950 flex items-center justify-center"
       aria-labelledby="creators-title"
     >
-      <div className="container mx-auto max-w-7xl px-4 md:px-6 flex flex-col items-center">
+      <div className="container mx-auto max-w-7xl px-4 md:px-6 z-10">
         <h2 
           id="creators-title"
-          className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12"
+          className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12 text-white"
         >
           Be a creator
         </h2>
-        <div className="flex flex-col md:flex-row gap-8 items-center justify-center w-full">
-          <StatCard
-            icon="streak"
-            value={7}
-            label="Current Streak"
-            variant="blue"
-          />
+        <div className="w-[80%] mx-auto flex flex-col lg:flex-row gap-8 items-center justify-center">
+          <div className="flex flex-col md:flex-row gap-8 items-center justify-center">
+            <StatCard
+              icon="streak"
+              value={7}
+              label="Current Streak"
+              variant="blue"
+            />
+          </div>
+          <div className="max-w-xl space-y-4 text-gray-300">
+            <h3 className="text-2xl font-semibold text-white">Track Your Creative Journey</h3>
+            <p>
+              Stay motivated and consistent with your creative work by tracking your daily streaks. 
+              Whether you're writing, designing, or coding, maintaining a streak helps build lasting habits.
+            </p>
+            <p>
+              Your current streak shows your ongoing commitment, while your longest streak 
+              represents your best run of consistent creativity. Keep pushing to beat your record!
+            </p>
+          </div>
         </div>
       </div>
     </section>
