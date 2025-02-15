@@ -2,8 +2,9 @@
 
 import type React from "react"
 
-import { useState } from "react"
+import { useState, useRef } from "react"
 import axios from "axios"
+import Image from "next/image"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
@@ -16,12 +17,17 @@ interface ImageUploadModalProps {
 
 export function ImageUploadModal({ isOpen, onClose }: ImageUploadModalProps) {
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
   const [caption, setCaption] = useState("")
   const [isUploading, setIsUploading] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     if (event.target.files && event.target.files[0]) {
-      setSelectedFile(event.target.files[0])
+      const file = event.target.files[0]
+      setSelectedFile(file)
+      const imageUrl = URL.createObjectURL(file)
+      setPreviewUrl(imageUrl)
     }
   }
 
@@ -54,23 +60,62 @@ export function ImageUploadModal({ isOpen, onClose }: ImageUploadModalProps) {
     }
   }
 
+  const resetForm = () => {
+    setSelectedFile(null)
+    setPreviewUrl(null)
+    setCaption("")
+    if (fileInputRef.current) {
+      fileInputRef.current.value = ""
+    }
+  }
+
   return (
-    <Dialog open={isOpen} onOpenChange={onClose}>
+    <Dialog
+      open={isOpen}
+      onOpenChange={() => {
+        onClose()
+        resetForm()
+      }}
+    >
       <DialogContent>
         <DialogHeader>
           <DialogTitle>Create New Post</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid grid-cols-4 items-center gap-4">
-            <Input id="picture" type="file" accept="image/*" onChange={handleFileChange} className="col-span-3" />
+            <Input
+              id="picture"
+              type="file"
+              accept="image/*"
+              onChange={handleFileChange}
+              className="col-span-3"
+              ref={fileInputRef}
+            />
           </div>
+          {previewUrl && (
+            <div className="mt-4">
+              <Image
+                src={previewUrl || "/placeholder.svg"}
+                alt="Selected image preview"
+                width={300}
+                height={300}
+                className="rounded-md object-cover"
+              />
+            </div>
+          )}
           <Textarea placeholder="Write a caption..." value={caption} onChange={(e) => setCaption(e.target.value)} />
         </div>
         <DialogFooter>
-          <Button onClick={onClose} variant="outline">
+          <Button
+            onClick={() => {
+              onClose()
+              resetForm()
+            }}
+            variant="outline"
+          >
             Cancel
           </Button>
-          <Button onClick={handleUpload} disabled={isUploading}>
+          <Button onClick={handleUpload} disabled={isUploading || !selectedFile}>
             {isUploading ? "Uploading..." : "Post"}
           </Button>
         </DialogFooter>

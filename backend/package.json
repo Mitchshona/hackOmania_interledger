@@ -3,21 +3,22 @@
     "version": "1.0.0",
     "description": "hackomania backend",
     "main": "server.js",
+    "type": "module",
     "scripts": {
-      "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "echo \"Error: no test specified\" && exit 1"
     },
     "repository": {
-      "type": "git",
-      "url": "git+https://github.com/Mitchshona/hackOmania_interledger.git"
+        "type": "git",
+        "url": "git+https://github.com/Mitchshona/hackOmania_interledger.git"
     },
     "author": "Fantastic4",
     "license": "ISC",
     "bugs": {
-      "url": "https://github.com/Mitchshona/hackOmania_interledger/issues"
+        "url": "https://github.com/Mitchshona/hackOmania_interledger/issues"
     },
     "homepage": "https://github.com/Mitchshona/hackOmania_interledger#readme",
     "dependencies": {
-      "express": "^4.21.2"
+        "@interledger/open-payments": "^6.13.2",
+        "express": "^4.21.2"
     }
-  }
-  
+}
