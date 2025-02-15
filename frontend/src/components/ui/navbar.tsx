@@ -45,7 +45,7 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b">
-      <div className="px-4 lg:px-6 h-20 flex items-center justify-between w-[90%] mx-auto">
+      <div className="px-4 lg:px-6 h-20 flex items-center justify-between max-w-7xl mx-auto">
         <Link 
           className="flex items-center justify-center transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600 rounded-lg" 
           href="/"
@@ -54,18 +54,18 @@ const Navbar = () => {
           <img 
             src="/welllogo.svg" 
             alt="well Logo" 
-            className="h-32 w-32"
+            className="h-24 w-24"
           />
         </Link>
         <Link href="/feed">
                       <Button 
-                        size="lg" 
+                        size="sm" 
                         variant="outline" 
-                        className="text-md px-8 py-6 text-white bg-black hover:bg-white/80 rounded-full"
+                        className="text-md px-3 py-5 text-green-600 hover:bg-green-800 rounded-full"
                       >
                         Explore
                       </Button>
-          </Link>
+                    </Link>
         <nav className="ml-auto flex items-center gap-4 sm:gap-6">
           {user ? (
             <div className="flex items-center space-x-4">

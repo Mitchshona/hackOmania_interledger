@@ -36,7 +36,7 @@ export default function LandingPage() {
                   </div>
                   <div className="space-x-4">
                     <Link href="/sign-up">
-                      <Button size="lg" className="bg-red-600 hover:bg-red-800 text-white text-lg px-8 py-6">
+                      <Button size="lg" className="bg-blue-600 hover:bg-blue-800 text-white text-lg px-8 py-6">
                         Sign up
                       </Button>
                     </Link>
@@ -44,7 +44,7 @@ export default function LandingPage() {
                       <Button 
                         size="lg" 
                         variant="outline" 
-                        className="text-lg px-8 py-6 text-orange-600 border-orange-600 hover:bg-orange-600 hover:text-white"
+                        className="text-lg px-8 py-6 text-green-600 hover:bg-green-800 "
                       >
                         Explore
                       </Button>
