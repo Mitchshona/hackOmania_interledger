@@ -6,9 +6,8 @@ import Navbar from "@/components/ui/navbar"
 export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen">
-      <Navbar />
-      <main className="flex-1 pt-20">
-        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-blue-50 flex items-center justify-center min-h-[calc(100vh-5rem)]">
+      <main className="flex-1">
+        <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-blue-100 flex items-center justify-center min-h-[calc(100vh-5rem)]">
           <div className="w-full">
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">

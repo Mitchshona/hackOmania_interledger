@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { FeedPost } from "@/components/feed/FeedPost"
 import { ImageUploadButton } from "@/components/feed/ImageUploadButton"
-
+import Navbar from "@/components/ui/navbar"
 // Define the Post type
 interface Post {
   id: number
