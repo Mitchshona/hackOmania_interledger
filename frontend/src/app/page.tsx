@@ -9,18 +9,29 @@ export default function LandingPage() {
       <main className="flex-1">
         <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-blue-100 flex items-center justify-center min-h-[calc(100vh-5rem)]">
           <div className="w-full">
-            <div className="flex flex-col items-center space-y-4 text-center">
-              <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-                  Break Free from Internet Addiction
-                </h1>
-                <p className="mx-auto max-w-[700px] text-gray-500 md:text-xl">
-                  Join Wellquit, the supportive community where teens share their journey to a balanced digital life.
-                </p>
-              </div>
-              <div className="space-x-4">
-                <Button>Get Started</Button>
-                <Button variant="outline">Learn More</Button>
+            <div className="container mx-auto px-4">
+              <div className="flex flex-col md:flex-row items-center gap-8 md:gap-12">
+                <img
+                  src="/hero-image.jpg"
+                  alt="Breaking free from internet addiction"
+                  className="w-64 h-64 object-cover rounded-lg shadow-lg"
+                />
+                <div className="flex flex-col items-center md:items-start space-y-4 text-center md:text-left">
+                  <div className="space-y-2">
+                    <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
+                      Break Free from Internet Addiction
+                    </h1>
+                    <p className="max-w-[700px] text-gray-500 md:text-xl">
+                      Share your internet addiction recovery journey on Wellquit and receive support from the community.
+                    </p>
+                  </div>
+                  <div className="space-x-4">
+                    <Link href="/feed">
+                      <Button className="bg-red-600 hover:bg-red-800 text-white">Start your journey</Button>
+                    </Link>
+                    <Button variant="outline">Learn More</Button>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -28,7 +39,7 @@ export default function LandingPage() {
         <section id="features" className="w-full py-12 md:py-24 lg:py-32 bg-white">
           <div className="container mx-auto max-w-7xl px-4 md:px-6 flex flex-col items-center">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
-              Why Choose Wellquit?
+              What is Wellquit?
             </h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
               <FeatureCard
@@ -89,7 +100,11 @@ export default function LandingPage() {
               </div>
               <div className="w-full max-w-sm space-y-2">
                 <form className="flex space-x-2">
-                  <Input className="flex-1" placeholder="Enter your email" type="email" />
+                  <Input 
+                    className="flex-1 placeholder:text-gray-300" 
+                    placeholder="your@email.com" 
+                    type="email" 
+                  />
                   <Button type="submit">Sign Up</Button>
                 </form>
                 <p className="text-xs text-blue-200">
@@ -125,11 +140,20 @@ function FeatureCard({ icon, title, description }) {
   )
 }
 
-function TestimonialCard({ quote, author }) {
+function TestimonialCard({ quote, author }: { quote: string; author: string }) {
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
-      <p className="text-gray-600 mb-4">"{quote}"</p>
-      <p className="text-gray-800 font-semibold">- {author}</p>
+      <div className="flex flex-col items-center">
+        <img
+          src="/success.png"
+          alt="Testimonial hero image" 
+          width={200}
+          height={200}
+          className="rounded-full mb-4 object-cover w-[200px] h-[200px]"
+        />
+        <p className="text-gray-600 mb-4">"{quote}"</p>
+        <p className="text-gray-800 font-semibold">- {author}</p>
+      </div>
     </div>
   )
 }
