@@ -9,7 +9,7 @@ const bricolageGrotesque = Bricolage_Grotesque({
 });
 
 export const metadata: Metadata = {
-  title: "Wellquit",
+  title: "well",
   description: "Build Healthy Habits, One Step at a Time",
 };
 
