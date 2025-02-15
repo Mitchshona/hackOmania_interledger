@@ -32,7 +32,7 @@ export default function ProfileInfo() {
   }
 
   return (
-    <div className="bg-white shadow-md rounded-lg p-6 mb-6">
+    <div className="bg-white shadow-[0_0_20px_rgba(0,0,0,0.15)] rounded-lg p-6 mb-6">
       <div className="flex items-center space-x-4 mb-4">
         <div className="relative">
           <Image

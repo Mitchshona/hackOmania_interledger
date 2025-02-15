@@ -1,8 +1,15 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
-import { Smartphone, Users, BarChart, Shield } from "lucide-react"
+import { Smartphone, Users, BarChart, Shield, Calendar, Flame } from "lucide-react"
 import Navbar from "@/components/ui/navbar"
+
+interface FeatureCardProps {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+}
+
 export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen">
@@ -62,6 +69,33 @@ export default function LandingPage() {
                 title="Digital Detox Tips"
                 description="Access expert advice and practical strategies for managing screen time."
               />
+            </div>
+          </div>
+        </section>
+        <section className="w-full py-12 md:py-24 lg:py-32 bg-white">
+          <div className="container mx-auto max-w-7xl px-4 md:px-6 flex flex-col items-center">
+            <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
+              Track Your Progress
+            </h2>
+            <div className="flex flex-col md:flex-row gap-8 items-center justify-center w-full">
+              <div className="bg-blue-50 p-8 rounded-xl flex flex-col items-center space-y-4 w-full md:w-80">
+                <div className="bg-blue-500 p-4 rounded-full">
+                  <Flame className="h-8 w-8 text-white" />
+                </div>
+                <div className="text-center">
+                  <h3 className="text-4xl font-bold text-blue-600 mb-2">7 Days</h3>
+                  <p className="text-gray-600">Current Streak</p>
+                </div>
+              </div>
+              <div className="bg-green-50 p-8 rounded-xl flex flex-col items-center space-y-4 w-full md:w-80">
+                <div className="bg-green-500 p-4 rounded-full">
+                  <Calendar className="h-8 w-8 text-white" />
+                </div>
+                <div className="text-center">
+                  <h3 className="text-4xl font-bold text-green-600 mb-2">30 Days</h3>
+                  <p className="text-gray-600">Longest Streak</p>
+                </div>
+              </div>
             </div>
           </div>
         </section>
@@ -130,7 +164,7 @@ export default function LandingPage() {
   )
 }
 
-function FeatureCard({ icon, title, description }) {
+function FeatureCard({ icon, title, description }: FeatureCardProps) {
   return (
     <div className="flex flex-col items-center text-center">
       <div className="mb-4">{icon}</div>
@@ -140,7 +174,12 @@ function FeatureCard({ icon, title, description }) {
   )
 }
 
-function TestimonialCard({ quote, author }: { quote: string; author: string }) {
+interface TestimonialCardProps {
+  quote: string;
+  author: string;
+}
+
+function TestimonialCard({ quote, author }: TestimonialCardProps) {
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
       <div className="flex flex-col items-center">
