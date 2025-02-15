@@ -15,9 +15,9 @@ export class OpenaiService {
       Given the uploaded image, extract and analyze the screen time information. Provide a summary of the total screen time, along with any notable usage patterns, and identify the categories or apps consuming the most time.
       Please respond always and uniquely with the following JSON object:
       {
-        "validityFactor": {validityFactorNumber}, // 0-1, 1 if it satisfies all the criteria, 0 otherwise
-        "descriptionOfAnalysis": "{analysis}" // Indicate your analysis of the image and why it satisfies or not the criteria. The analysis will be shown to the user so make them understand why the image doesn't satisfy the criteria if it doesn't without going into detail on exact criteria. Remember we are rewarding users that drink coffee in a sustainable way.
+        "descriptionOfAnalysis": "{analysis}" // Indicate your analysis of the image and why it satisfies or not the criteria.
         "dailyScreenTime": "{screenTime}" // Output the daily screen time in minutes
+        ""
       }
     `;
 
