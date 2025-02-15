@@ -1,4 +1,6 @@
 import { Calendar, Flame } from 'lucide-react'
+import Link from 'next/link'
+import { Button } from '@/components/ui/button'
 
 type StatCardProps = {
   icon: 'streak' | 'longest'
@@ -33,7 +35,10 @@ const StatCard = ({ icon, value, label, variant }: StatCardProps) => {
       <div className="text-center">
         <h3 className={`text-4xl font-bold ${variants[variant].text} mb-2`}>{value} Days</h3>
         <p className="text-gray-600">{label}</p>
+        
       </div>
+
+
     </div>
   )
 }
@@ -68,6 +73,11 @@ const CreatorCard = () => {
             <p>
               Be rewarded for keeping a streak of low screen time usage.
             </p>
+            <Link href="/sign-up" className="mt-8 block">
+              <Button size="lg" className="bg-red-600 hover:bg-red-800 text-white text-lg px-8 py-6">
+                Sign up
+              </Button>
+            </Link>
           </div>
         </div>
       </div>

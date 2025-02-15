@@ -85,42 +85,6 @@ export default function LandingPage() {
 
           <SupporterCard />
 
-          <section id="supporters" className="snap-start w-full h-screen sticky top-0 bg-gray-50 flex items-center justify-center">
-            <div className="container mx-auto max-w-7xl px-4 md:px-6 flex flex-col items-center">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
-                Be a supporter
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
-                <div className="bg-white p-8 rounded-xl shadow-sm flex flex-col items-center space-y-4">
-                  <div className="bg-purple-500 p-4 rounded-full">
-                    <Users className="h-8 w-8 text-white" />
-                  </div>
-                  <div className="text-center">
-                    <h3 className="text-4xl font-bold text-purple-600 mb-2">150+</h3>
-                    <p className="text-gray-600">Community Members</p>
-                  </div>
-                </div>
-                <div className="bg-white p-8 rounded-xl shadow-sm flex flex-col items-center space-y-4">
-                  <div className="bg-orange-500 p-4 rounded-full">
-                    <BarChart className="h-8 w-8 text-white" />
-                  </div>
-                  <div className="text-center">
-                    <h3 className="text-4xl font-bold text-orange-600 mb-2">45%</h3>
-                    <p className="text-gray-600">Screen Time Reduced</p>
-                  </div>
-                </div>
-                <div className="bg-white p-8 rounded-xl shadow-sm flex flex-col items-center space-y-4">
-                  <div className="bg-teal-500 p-4 rounded-full">
-                    <Shield className="h-8 w-8 text-white" />
-                  </div>
-                  <div className="text-center">
-                    <h3 className="text-4xl font-bold text-teal-600 mb-2">24/7</h3>
-                    <p className="text-gray-600">Community Support</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
 
           <section id="testimonials" className="snap-start w-full h-screen sticky top-0 bg-gray-50 flex items-center justify-center">
             <div className="container mx-auto max-w-7xl px-4 md:px-6 flex flex-col items-center">

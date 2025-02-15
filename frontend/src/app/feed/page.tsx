@@ -63,14 +63,14 @@ export default function FeedPage() {
         <ImageUploadButton onPostUploaded={fetchPosts} />
       </div>
       {loading && (
-        <div className="space-y-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {[1, 2, 3].map((index) => (
             <div key={index} className="p-6 bg-white rounded-lg shadow-md">
               <div className="flex items-center space-x-4 mb-4">
                 <Skeleton className="h-12 w-12 rounded-full" />
                 <Skeleton className="h-4 w-32" />
               </div>
-              <Skeleton className="h-[300px] w-full mb-4" />
+              <Skeleton className="h-64 w-full mb-4" />
               <div className="space-y-2">
                 <Skeleton className="h-4 w-3/4" />
                 <Skeleton className="h-4 w-1/2" />
@@ -85,7 +85,7 @@ export default function FeedPage() {
         </div>
       )}
       {error && <p className="text-red-500">{error}</p>}
-      <div className="space-y-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {posts.map((post) => (
           <FeedPost key={post.id} post={post} />
         ))}
