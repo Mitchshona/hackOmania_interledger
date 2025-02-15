@@ -61,7 +61,7 @@ const Navbar = () => {
                       <Button 
                         size="lg" 
                         variant="outline" 
-                        className="text-lg px-8 py-6 text-white bg-black hover:bg-white/80 rounded-full"
+                        className="text-md px-8 py-6 text-white bg-black hover:bg-white/80 rounded-full"
                       >
                         Explore
                       </Button>
