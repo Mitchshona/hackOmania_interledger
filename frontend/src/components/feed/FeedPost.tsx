@@ -24,6 +24,7 @@ interface FeedPostProps {
 export function FeedPost({ post }: FeedPostProps) {
   const [isOpen, setIsOpen] = useState(false)
   const [donationAmount, setDonationAmount] = useState('')
+  const [walletId, setWalletId] = useState('')
   const [donationSuccess, setDonationSuccess] = useState(false)
 
   const handleDonate = () => {
@@ -33,6 +34,7 @@ export function FeedPost({ post }: FeedPostProps) {
       setDonationSuccess(false)
       setIsOpen(false)
       setDonationAmount('')
+      setWalletId('')
     }, 2000)
   }
 
@@ -88,6 +90,14 @@ export function FeedPost({ post }: FeedPostProps) {
                     placeholder="Enter amount (SGD)"
                     value={donationAmount}
                     onChange={(e) => setDonationAmount(e.target.value)}
+                    className="mb-4"
+                  />
+                  <Input
+                    type="text"
+                    placeholder="Enter your wallet ID"
+                    value={walletId}
+                    onChange={(e) => setWalletId(e.target.value)}
+                    className="mb-4"
                   />
                   <Button onClick={handleDonate}>Donate</Button>
                 </>
