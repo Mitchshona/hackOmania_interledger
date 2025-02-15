@@ -40,6 +40,23 @@ app.post('/createoutgrant', async (req, res) => {
     res.status(200);
     res.send(oGrant.continue);
 });
+
+app.post('/api/analyze-image', async (req, res) => {
+    const { image } = req.body;
+
+    if (!image) {
+        return res.status(400).json({ message: "Image is required" });
+    }
+
+    try {
+        const analysis = await openaiService.validateImage(image);
+        res.status(200).json(analysis);
+    } catch (error) {
+        console.error('Error analyzing image:', error);
+        res.status(500).json({ message: "Failed to analyze image", error: error.message });
+    }
+});
+
 app.listen(PORT, (error) =>{
     if(!error)
         console.log("Server is Successfully Running, and App is listening on port "+ PORT) 
