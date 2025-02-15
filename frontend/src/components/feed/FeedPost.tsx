@@ -2,6 +2,7 @@ import Image from "next/image"
 import { Heart, MessageCircle, DollarSign } from 'lucide-react'
 import { Button } from "@/components/ui/button"
 
+
 interface Post {
   id: number
   user: string
