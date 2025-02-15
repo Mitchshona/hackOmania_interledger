@@ -46,49 +46,56 @@ export function VerifyImageModal({
       alert("Please select an image to upload.");
       return;
     }
-
+  
     setIsUploading(true);
-
+  
     try {
       const reader = new FileReader();
-
+  
       reader.onload = async () => {
         const base64Image = reader.result as string;
-
+  
         console.log(base64Image);
-
+  
         const response = await fetch("http://localhost:5600/api/analyze-image", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ image: base64Image }),
         });
-
+  
         const data = await response.json();
-
+  
         if (response.ok) {
           console.log("Analysis successful:", data);
-
+  
           const screenTimeMinutes = parseInt(data.dailyScreenTime, 10) || 0;
           const hours = Math.floor(screenTimeMinutes / 60);
           const minutes = screenTimeMinutes % 60;
-
+  
           setScreenTimeMessage(
-            `Step 2: Verify that your hours is ${hours}h ${minutes}m`
+            `Step 2: Verify that your screen time is ${hours}h ${minutes}m`
           );
-
-          alert("Image analyzed successfully!");
+  
+          // Check if screen time is below 2 hours
+          if (screenTimeMinutes <= 120) {
+            alert("Successful verification! Congratulations");
+          } else {
+            alert("Sorry, screen time exceeds 2 hours!");
+          }
+  
+          // Reset the state after a successful upload
+          resetForm();
           onClose();
-          setSelectedFile(null);
           await onPostUploaded();
         } else {
           alert(`Failed to analyze image: ${data.descriptionOfAnalysis}`);
         }
       };
-
+  
       reader.onerror = () => {
         alert("Error reading the image file. Please try again.");
       };
-
+  
       reader.readAsDataURL(selectedFile);
     } catch (error) {
       console.error("Error analyzing image:", error);
@@ -97,16 +104,17 @@ export function VerifyImageModal({
       setIsUploading(false);
     }
   };
-
+  
   const resetForm = () => {
-    setSelectedFile(null);
-    setPreviewUrl(null);
-    setCurrentStep(1);
-    setScreenTimeMessage("");
+    setSelectedFile(null);      // Clear the selected file
+    setPreviewUrl(null);        // Clear the preview URL
+    setCurrentStep(1);          // Reset to Step 1
+    setScreenTimeMessage("");  // Clear any messages related to screen time
     if (fileInputRef.current) {
-      fileInputRef.current.value = "";
+      fileInputRef.current.value = ""; // Clear the file input field
     }
   };
+  
 
   return (
     <Dialog
