@@ -3,39 +3,41 @@ import {
     isPendingGrant,
 } from "@interledger/open-payments";
 import dotenv from 'dotenv';
-import { quotePromise } from './createdebitquote.js';
 import { randomUUID } from 'crypto';
 
 dotenv.config();
 
-const NONCE = randomUUID();
+/**
+ * Creates an outgoing grant request with interactive authentication
+ * @param {Object} params - Grant parameters
+ * @param {string} params.walletAddress - The wallet address URL
+ * @param {string} params.privateKey - The private key
+ * @param {string} params.keyId - The key ID
+ * @returns {Promise<Object>} Grant details or error information
+ */
+export async function createOutgoingGrant({ walletAddress, privateKey, keyId, accessToken, paymentId, quote }) {
+    const nonce = randomUUID();
 
-// Export as regular async function instead of IIFE
-export const outGrant = async () => {  // Removed ()
     try {
-        const quote = await quotePromise;
-        console.log("Using quote:", quote.id);
-        console.log("Debit Amount:", quote.debitAmount.value, quote.debitAmount.assetCode);
-
         const client = await createAuthenticatedClient({
-            walletAddressUrl: process.env.WALLET_ADDRESS,
-            privateKey: process.env.PRIVATE_KEY_PATH,
-            keyId: process.env.KEY_ID,
+            walletAddressUrl: walletAddress,
+            privateKey: privateKey,
+            keyId: keyId,
         });
 
-        const walletAddress = await client.walletAddress.get({
-            url: process.env.WALLET_ADDRESS,
+        const walletAddressInfo = await client.walletAddress.get({
+            url: walletAddress,
         });
 
         const grant = await client.grant.request(
             {
-                url: walletAddress.authServer,
+                url: walletAddressInfo.authServer,
             },
             {
                 access_token: {
                     access: [
                         {
-                            identifier: walletAddress.id,
+                            identifier: walletAddressInfo.id,
                             type: "outgoing-payment",
                             actions: ["list", "list-all", "read", "read-all", "create"],
                             limits: {
@@ -52,8 +54,8 @@ export const outGrant = async () => {  // Removed ()
                     start: ["redirect"],
                     finish: {
                         method: "redirect",
-                        uri: "http://localhost:3344",
-                        nonce: NONCE,
+                        uri: `http://localhost:5600/continuegrant?nonce=${nonce}`,
+                        nonce: nonce,
                     },
                 },
             }
@@ -63,14 +65,50 @@ export const outGrant = async () => {  // Removed ()
             throw new Error("Expected interactive grant");
         }
 
-        console.log("NONCE:", NONCE);
+        console.log("NONCE:", nonce);
         console.log("Interaction URL:", grant.interact.redirect);
-        return grant;
+
+        return {
+            success: true,
+            grant: grant,
+            nonce: nonce,
+            interactionUrl: grant.interact.redirect
+        };
 
     } catch (error) {
         console.error("Grant Error:", error.response?.body || error.message);
-        throw error; // Don't exit process, just throw
+        return {
+            success: false,
+            error: error.response?.body || error.message,
+            nonce: nonce
+        };
     }
-}; // Removed ()
+}
 
-console.log("NONCE =", NONCE);
+/**
+ * Wrapper function to handle outgoing grant creation
+ * @param {string} walletAddress - The wallet address URL
+ * @param {string} privateKey - The private key
+ * @param {string} keyId - The key ID
+ * @returns {Promise<Object>} Result object with grant details or error
+ */
+export async function outgoingGrantPromise(walletAddress, privateKey, keyId, accessToken, paymentId, quote) {
+    try {
+        const params = {
+            walletAddress,
+            privateKey,
+            keyId,
+            accessToken,
+            paymentId,
+            quote
+        };
+
+        const result = await createOutgoingGrant(params);
+        return result;
+    } catch (error) {
+        return {
+            success: false,
+            error: error.message || 'Failed to create outgoing grant'
+        };
+    }
+}

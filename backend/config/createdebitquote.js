@@ -1,55 +1,69 @@
 // createdebitquote.js
 import { createAuthenticatedClient } from "@interledger/open-payments";
-import { incomingPaymentPromise } from './createinpay.js';
-import dotenv from 'dotenv';
 
-dotenv.config();
-
-const WALLET_ADDRESS = process.env.WALLET_ADDRESS;
-const PRIVATE_KEY_PATH = process.env.PRIVATE_KEY_PATH;
-const KEY_ID = process.env.KEY_ID;
-
-// Export the quote creation process as a promise
-export const quotePromise = (async () => {
+/**
+ * Creates a debit quote with parameterized configuration
+ * @param {string} walletAddress - Wallet address URL
+ * @param {string} privateKeyPath - Path to private key file
+ * @param {string} keyId - Authentication key ID
+ * @returns {Promise<Object>} Quote creation result
+ */
+export async function quotePromise(walletAddress, privateKey, keyId, accessToken, paymentId) {
   try {
-    const { paymentId, accessToken } = await incomingPaymentPromise;
-    
-    console.log("PAYMENT_ID =", paymentId);
-    console.log("INCOMING_PAYMENT_ACCESS_TOKEN =", accessToken);
+    if (!walletAddress || !privateKey || !keyId) {
+      throw new Error("Missing required parameters");
+    }
 
+    // Create authenticated client
     const client = await createAuthenticatedClient({
-      walletAddressUrl: WALLET_ADDRESS,
-      privateKey: PRIVATE_KEY_PATH,
-      keyId: KEY_ID,
+      walletAddressUrl: walletAddress,
+      privateKey: privateKey,
+      keyId: keyId,
     });
 
-    const walletAddress = await client.walletAddress.get({
-      url: WALLET_ADDRESS,
-    });
-
+    // Get wallet details
+    const walletDetails = await client.walletAddress.get({ url: walletAddress });
+    console.log("Wallet Details:", walletDetails);
+    // Create the quote
     const quote = await client.quote.create(
       {
-        url: new URL(WALLET_ADDRESS).origin,
-        accessToken,
+        url: new URL(walletAddress).origin,
+        accessToken: accessToken,
       },
       {
         method: "ilp",
-        walletAddress: WALLET_ADDRESS,
+        walletAddress: walletAddress,
         receiver: paymentId,
         debitAmount: {
-          value: "10",
-          assetCode: walletAddress.assetCode,
-          assetScale: walletAddress.assetScale,
+          value: "100", // Default value or make parameter
+          assetCode: walletDetails.assetCode,
+          assetScale: walletDetails.assetScale,
         },
       }
     );
 
-    console.log("QUOTE_URL =", quote.id);
-    return quote;
+    return {
+      success: true,
+      quote: quote,
+      paymentId: paymentId,
+      accessToken: accessToken
+    };
 
   } catch (error) {
-    console.error("Quote Error:", error.response?.body || error.message);
-    process.exit(1);
+    console.error("Quote Creation Failed:", error);
+    return {
+      success: false,
+      error: error.message,
+      details: error.response?.body || null
+    };
   }
-})();
+}
+
+// Example usage:
+// const result = await quotePromise(
+//   "https://wallet.example/alice",
+//   "/path/to/private.key",
+//   "key-12345"
+// );
+
 
