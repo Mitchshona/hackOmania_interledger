@@ -22,7 +22,7 @@ export default function UserPosts() {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between mb-4">
-        <h2 className="text-2xl font-bold">My Posts</h2>
+        <h2 className="text-2xl font-bold">My Records</h2>
         <button
           onClick={handleOpenModal}
           className="bg-blue-500 text-white px-4 py-2 rounded-md"
