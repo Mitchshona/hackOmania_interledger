@@ -31,7 +31,7 @@ export default function LandingPage() {
                       Break Free from Internet Addiction
                     </h1>
                     <p className="max-w-[700px] text-gray-500 md:text-2xl lg:text-3xl">
-                      Share your internet addiction recovery journey on well and receive support from the community.
+                      Share your internet addiction recovery journey on Well and receive support from the community.
                     </p>
                   </div>
                   <div className="space-x-4">
