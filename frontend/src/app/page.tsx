@@ -2,27 +2,11 @@ import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Smartphone, Users, BarChart, Shield } from "lucide-react"
-
+import Navbar from "@/components/ui/navbar"
 export default function LandingPage() {
   return (
     <div className="flex flex-col min-h-screen">
-      <header className="px-4 lg:px-6 h-20 fixed top-0 left-0 right-0 z-10 bg-white flex items-center justify-between max-w-7xl mx-auto w-full">
-        <Link className="flex items-center justify-center" href="#">
-          <Smartphone className="h-6 w-6 text-blue-600" />
-          <span className="ml-2 text-2xl font-bold text-gray-900">Wellquit</span>
-        </Link>
-        <nav className="ml-auto flex gap-4 sm:gap-6">
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#features">
-            Features
-          </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#testimonials">
-            Testimonials
-          </Link>
-          <Link className="text-sm font-medium hover:underline underline-offset-4" href="#about">
-            About
-          </Link>
-        </nav>
-      </header>
+      <Navbar />
       <main className="flex-1 pt-20">
         <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-blue-50 flex items-center justify-center min-h-[calc(100vh-5rem)]">
           <div className="w-full">

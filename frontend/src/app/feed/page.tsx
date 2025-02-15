@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { FeedPost } from "@/components/feed/FeedPost"
-
+import Navbar from "@/components/ui/navbar"
 // Define the Post type
 interface Post {
   id: number
@@ -50,6 +50,7 @@ export default function FeedPage() {
 
   return (
     <main className="container mx-auto px-4 py-8">
+      <Navbar />
       <h1 className="text-3xl font-bold mb-6">Mindful Social Feed</h1>
       <div className="space-y-8">
         {posts.map((post) => (
