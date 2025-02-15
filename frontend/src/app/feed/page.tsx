@@ -41,12 +41,29 @@ const dummyData: Post[] = [
   // Add more dummy posts as needed
 ]
 
+
 export default function FeedPage() {
   const [posts, setPosts] = useState<Post[]>([])
+  const [loading, setLoading] = useState<boolean>(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     // Instead of fetching from Supabase, use dummy data for now
     setPosts(dummyData)
+
+    // const fetchposts = async () => {
+    //   try {
+    //     const response = await axios.get("https://your-api-endpoint.com/posts")
+    //     setPosts(response.data)
+    //   } catch (error) {
+    //     setError("Failed to get posts")
+    //     console.error("Error fetching posts:", err)
+    //   } finally {
+    //     setLoading(false)
+    //   }
+    // }
+
+
   }, [])
 
   return (
