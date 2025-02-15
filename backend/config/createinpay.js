@@ -1,31 +1,31 @@
-// createinpay.js
 import { createAuthenticatedClient } from "@interledger/open-payments";
-import { grantPromise } from './createingrant.js';
-import dotenv from 'dotenv';
 
-dotenv.config();
-
-const WALLET_ADDRESS = process.env.WALLET_ADDRESS;
-const PRIVATE_KEY_PATH = process.env.PRIVATE_KEY_PATH;
-const KEY_ID = process.env.KEY_ID;
-
-export const incomingPaymentPromise = grantPromise.then(async ({ accessToken }) => {
+/**
+ * Creates an incoming payment using the Open Payments client
+ * @param {Object} params - Payment parameters
+ * @param {string} params.walletAddress - The wallet address URL
+ * @param {string} params.privateKey - The private key
+ * @param {string} params.keyId - The key ID
+ * @param {string} params.accessToken - The access token
+ * @returns {Promise<Object>} Payment details including ID and access token
+ */
+export async function createIncomingPayment({ walletAddress, privateKey, keyId, accessToken, amount }) {
   try {
     const client = await createAuthenticatedClient({
-      walletAddressUrl: WALLET_ADDRESS,
-      privateKey: PRIVATE_KEY_PATH,
-      keyId: KEY_ID,
+      walletAddressUrl: walletAddress,
+      privateKey: privateKey,
+      keyId: keyId,
     });
 
     const payment = await client.incomingPayment.create(
       {
-        url: new URL(WALLET_ADDRESS).origin,
+        url: new URL(walletAddress).origin,
         accessToken,
       },
       {
-        walletAddress: WALLET_ADDRESS,
+        walletAddress: walletAddress,
         incomingAmount: {
-          value: "10",
+          value: amount,
           assetCode: "SGD",
           assetScale: 2,
         },
@@ -33,14 +33,48 @@ export const incomingPaymentPromise = grantPromise.then(async ({ accessToken }) 
       }
     );
 
-    console.log("INCOMING PAYMENT URL:", payment.id, accessToken);
+    console.log("INCOMING PAYMENT URL:", payment.id);
+    console.log("Access Token:", accessToken);
+
     return {
-        paymentId: payment.id,
-        accessToken: accessToken
-      };
-      
+      success: true,
+      paymentId: payment.id,
+      accessToken: accessToken
+    };
+
   } catch (error) {
     console.error("Payment Error:", error.response?.body || error.message);
-    process.exit(1);
+    return {
+      success: false,
+      error: error.response?.body || error.message
+    };
   }
-});
+}
+
+/**
+ * Wrapper function to handle incoming payment creation
+ * @param {string} walletAddress - The wallet address URL
+ * @param {string} privateKey - The private key
+ * @param {string} keyId - The key ID
+ * @param {string} accessToken - The access token
+ * @returns {Promise<Object>} Result object with payment details or error
+ */
+export async function incomingPaymentPromise(walletAddress, privateKey, keyId, accessToken) {
+  try {
+    // Create proper params object
+    const params = {
+      walletAddress,
+      privateKey,
+      keyId,
+      accessToken
+    };
+
+    const result = await createIncomingPayment(params);
+    return result;
+  } catch (error) {
+    return {
+      success: false,
+      error: error.message || 'Failed to create incoming payment'
+    };
+  }
+}
