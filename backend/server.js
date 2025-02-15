@@ -344,8 +344,8 @@ app.post('/api/userCreateOutGoingDonation', async (req, res) => {
             KEY_ID,
         }
     });    
-    console.log(result.data);
-    res.status(200).json(result.data);
+    console.log(result);
+    res.status(200).json(result);
     // redirect(outgoingGrant.data.interaction_url);
 });
 
