@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import { FeedPost } from "@/components/feed/FeedPost"
 import { ImageUploadButton } from "@/components/feed/ImageUploadButton"
-
+import Navbar from "@/components/ui/navbar"
 // Define the Post type
 interface Post {
   id: number
@@ -51,6 +51,7 @@ export default function FeedPage() {
 
   return (
     <main className="container mx-auto px-4 py-8">
+      <Navbar />
       <div className="flex">
         <h1 className="text-3xl font-bold mb-6 mr-3">Social Feed</h1>
         <ImageUploadButton />
