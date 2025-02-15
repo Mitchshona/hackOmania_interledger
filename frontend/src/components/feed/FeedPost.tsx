@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 import { useState } from 'react'
 import { Heart, MessageCircle, DollarSign } from 'lucide-react'
 import { Button } from "@/components/ui/button"
@@ -45,7 +46,9 @@ export function FeedPost({ post }: FeedPostProps) {
           height={40}
           className="rounded-full mr-3"
         />
-        <span className="font-semibold">{post.user}</span>
+        <Link href={`/user/${post.user}`} className="font-semibold hover:underline">
+          {post.user}
+        </Link>
       </div>
       <Image 
         src={post.image || "/placeholder.svg"} 

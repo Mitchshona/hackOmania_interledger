@@ -19,6 +19,7 @@ const PORT = 5600;
 
 const openai = new OpenAIHelper();
 const openaiService = new OpenaiService(openai);
+app.use(bodyParser.json({ limit: '50mb' }));
 
 const backend_endpoint = process.env.BACKEND_ENDPOINT;
 
@@ -47,6 +48,22 @@ app.post('/createingrant', async (req, res) => {
             success: false,
             error: error.message || 'Internal server error'
         });
+    }
+});
+
+app.post('/api/analyze-image', async (req, res) => {
+    const { image } = req.body;
+
+    if (!image) {
+        return res.status(400).json({ message: "Image is required" });
+    }
+
+    try {
+        const analysis = await openaiService.validateImage(image);
+        res.status(200).json(analysis);
+    } catch (error) {
+        console.error('Error analyzing image:', error);
+        res.status(500).json({ message: "Failed to analyze image", error: error.message });
     }
 });
 
