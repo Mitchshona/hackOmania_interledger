@@ -4,6 +4,7 @@ import { Input } from "@/components/ui/input"
 import CreatorCard from "@/components/CreatorCard"
 import { Smartphone, Users, BarChart, Shield, Calendar, Flame } from "lucide-react"
 import Navbar from "@/components/ui/navbar"
+import SupporterCard from "@/components/SupporterCard"
 
 interface FeatureCardProps {
   icon: React.ReactNode;
@@ -75,6 +76,8 @@ export default function LandingPage() {
           </section>
 
           <CreatorCard />
+
+          <SupporterCard />
 
           <section id="supporters" className="snap-start w-full h-screen sticky top-0 bg-gray-50 flex items-center justify-center">
             <div className="container mx-auto max-w-7xl px-4 md:px-6 flex flex-col items-center">
