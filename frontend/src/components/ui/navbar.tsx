@@ -73,7 +73,7 @@ const Navbar = () => {
             <Button 
               size="sm" 
               variant="outline" 
-              className="text-md px-3 py-5 text-green-600 hover:bg-green-800 hover:text-white rounded-full"
+              className="text-md px-3 py-5 text-gray-600 hover:bg-green-800 hover:text-white rounded-full"
             >
               Challenges
             </Button>      
