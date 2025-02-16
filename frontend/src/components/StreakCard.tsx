@@ -1,43 +1,42 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import { useParams } from "next/navigation" // ✅ Extract username from URL
+import { useParams } from "next/navigation"
 import { Flame } from "lucide-react"
 import { db } from "@/app/config/firebase-config"
-import { collection, query, where, getDocs } from "firebase/firestore"
+import { collection, query, where, onSnapshot } from "firebase/firestore"
 
 interface StreakCardProps {
   averageScreentime: number
 }
 
 const StreakCard = ({ averageScreentime = 30 }: StreakCardProps) => {
-  const { username } = useParams() // ✅ Extract username from URL
+  const { username } = useParams()
   const [streakCount, setStreakCount] = useState<number>(0)
   const [loading, setLoading] = useState<boolean>(true)
 
   useEffect(() => {
-    const fetchStreak = async () => {
-      setLoading(true)
-
+    const unsubscribe = () => {
       if (!username) {
         console.error("Username not found in URL.")
-        setLoading(false)
         return
       }
 
       try {
-        // ✅ Query Firestore for the user document by username
         const usersRef = collection(db, "users")
         const q = query(usersRef, where("userName", "==", username))
-        const querySnapshot = await getDocs(q)
 
-        if (!querySnapshot.empty) {
-          const userDoc = querySnapshot.docs[0] // ✅ Get the first matched document
-          const userData = userDoc.data()
-          setStreakCount(userData.streak)
-        } else {
-          console.error(`User '${username}' not found in Firestore.`)
-        }
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          if (!querySnapshot.empty) {
+            const userDoc = querySnapshot.docs[0]
+            const userData = userDoc.data()
+            setStreakCount(userData.streak)
+          } else {
+            console.error(`User '${username}' not found in Firestore.`)
+          }
+        })
+
+        return unsubscribe
       } catch (error) {
         console.error("Error fetching streak count:", error)
       } finally {
@@ -45,8 +44,8 @@ const StreakCard = ({ averageScreentime = 30 }: StreakCardProps) => {
       }
     }
 
-    fetchStreak()
-  }, [username]) // ✅ Runs whenever the username changes
+    unsubscribe()
+  }, [username])
 
   return (
     <div 

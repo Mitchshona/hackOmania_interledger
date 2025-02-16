@@ -43,7 +43,7 @@ export function FeedPost({ post }: FeedPostProps) {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-md overflow-hidden">
+    <div className="bg-white rounded-lg shadow-md overflow-hidden max-w-sm">
       <div className="p-4 flex items-center">
         <Image
           src={post.avatar || "/placeholder.svg"}
@@ -61,7 +61,7 @@ export function FeedPost({ post }: FeedPostProps) {
         alt="Post image" 
         width={400} 
         height={400} 
-        className="w-full h-auto"
+        className="w-full h-64 object-cover"
       />
       <div className="p-4">
         <p className="mb-4">{post.caption}</p>

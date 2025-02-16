@@ -45,22 +45,42 @@ const Navbar = () => {
 
   return (
     <header className="sticky top-0 z-50 bg-white border-b">
-      <div className="px-4 lg:px-6 h-20 flex items-center justify-between w-[90%] mx-auto">
-        <Link className="flex items-center justify-center" href="/">
+      <div className="px-4 lg:px-6 h-20 flex items-center justify-between max-w-7xl mx-auto">
+        <Link 
+          className="flex items-center justify-center transition-opacity hover:opacity-80 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-red-600 rounded-lg" 
+          href="/"
+          aria-label="Go to homepage"
+        >
           <img 
             src="/welllogo.svg" 
             alt="well Logo" 
-            className="h-32 w-32"
+            className="h-24 w-24"
           />
         </Link>
-        <nav className="ml-auto flex items-center gap-4 sm:gap-6">
-          <Link 
-            className="text-sm font-medium hover:underline underline-offset-4 py-2" 
-            href="/feed"
-          >
-            Feed
+        
+        <div className="flex items-center space-x-2">
+          <Link href="/feed">
+            <Button 
+              size="sm" 
+              variant="outline" 
+              className="text-md px-3 py-5 text-green-600 hover:bg-green-800 hover:text-white rounded-full"
+            >
+              Explore
+            </Button>      
           </Link>
 
+          <Link href="/challenges">
+            <Button 
+              size="sm" 
+              variant="outline" 
+              className="text-md px-3 py-5 text-gray-600 hover:bg-green-800 hover:text-white rounded-full"
+            >
+              Challenges
+            </Button>      
+          </Link>
+        </div>
+
+        <nav className="ml-auto flex items-center gap-4 sm:gap-6">
           {user ? (
             <div className="flex items-center space-x-4">
               <Link href={`/user/${user.userName}`} className="flex items-center space-x-2">

@@ -31,18 +31,22 @@ export default function LandingPage() {
                       Break Free from Internet Addiction
                     </h1>
                     <p className="max-w-[700px] text-gray-500 md:text-2xl lg:text-3xl">
-                      Share your internet addiction recovery journey on well and receive support from the community.
+                      Share your internet addiction recovery journey on Well and receive support from the community.
                     </p>
                   </div>
                   <div className="space-x-4">
                     <Link href="/sign-up">
-                      <Button size="lg" className="bg-red-600 hover:bg-red-800 text-white text-lg px-8 py-6">
+                      <Button size="lg" className="bg-blue-600 hover:bg-blue-800 text-white text-lg px-8 py-6">
                         Sign up
                       </Button>
                     </Link>
-                    <Link href="#creator">
-                      <Button size="lg" variant="outline" className="text-lg px-8 py-6">
-                        Learn More
+                    <Link href="/feed">
+                      <Button 
+                        size="lg" 
+                        variant="outline" 
+                        className="text-lg px-8 py-6 text-green-600 hover:bg-green-800 "
+                      >
+                        Explore
                       </Button>
                     </Link>
                   </div>
@@ -85,42 +89,6 @@ export default function LandingPage() {
 
           <SupporterCard />
 
-          <section id="supporters" className="snap-start w-full h-screen sticky top-0 bg-gray-50 flex items-center justify-center">
-            <div className="container mx-auto max-w-7xl px-4 md:px-6 flex flex-col items-center">
-              <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl text-center mb-12">
-                Be a supporter
-              </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full">
-                <div className="bg-white p-8 rounded-xl shadow-sm flex flex-col items-center space-y-4">
-                  <div className="bg-purple-500 p-4 rounded-full">
-                    <Users className="h-8 w-8 text-white" />
-                  </div>
-                  <div className="text-center">
-                    <h3 className="text-4xl font-bold text-purple-600 mb-2">150+</h3>
-                    <p className="text-gray-600">Community Members</p>
-                  </div>
-                </div>
-                <div className="bg-white p-8 rounded-xl shadow-sm flex flex-col items-center space-y-4">
-                  <div className="bg-orange-500 p-4 rounded-full">
-                    <BarChart className="h-8 w-8 text-white" />
-                  </div>
-                  <div className="text-center">
-                    <h3 className="text-4xl font-bold text-orange-600 mb-2">45%</h3>
-                    <p className="text-gray-600">Screen Time Reduced</p>
-                  </div>
-                </div>
-                <div className="bg-white p-8 rounded-xl shadow-sm flex flex-col items-center space-y-4">
-                  <div className="bg-teal-500 p-4 rounded-full">
-                    <Shield className="h-8 w-8 text-white" />
-                  </div>
-                  <div className="text-center">
-                    <h3 className="text-4xl font-bold text-teal-600 mb-2">24/7</h3>
-                    <p className="text-gray-600">Community Support</p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
 
           <section id="testimonials" className="snap-start w-full h-screen sticky top-0 bg-gray-50 flex items-center justify-center">
             <div className="container mx-auto max-w-7xl px-4 md:px-6 flex flex-col items-center">
@@ -144,7 +112,7 @@ export default function LandingPage() {
             </div>
           </section>
 
-          <section id="cta" className="snap-start w-full h-screen sticky top-0 bg-blue-600 text-white flex flex-col justify-between">
+          <section id="cta" className="snap-start w-full h-screen sticky top-0 bg-blue-200 text-black flex flex-col justify-between">
             <div className="flex-1 flex items-center justify-center">
               <div className="container mx-auto max-w-7xl px-4 md:px-6 flex items-center justify-center">
                 <div className="flex flex-col items-center space-y-4 text-center">
@@ -152,20 +120,19 @@ export default function LandingPage() {
                     <h2 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
                       Start Your Journey Today
                     </h2>
-                    <p className="mx-auto max-w-[600px] text-blue-100 md:text-xl">
+                    <p className="mx-auto max-w-[600px] text-gray-500 md:text-xl">
                       Join thousands of teens taking control of their digital lives. Sign up for well and begin your
                       path to a balanced lifestyle.
                     </p>
                   </div>
                   <div className="flex flex-col items-center space-y-2">
-                    <Link href="/sign-up">
-                      <Button 
-                        size="lg" 
-                        className="px-12 bg-red-600 hover:bg-red-800 text-white text-lg"
-                      >
+
+                    <Link href="/sign-up" className='mt-4 block'>
+                      <Button size="lg" className="bg-blue-600 hover:bg-blue-800 text-white text-lg px-8 py-6">
                         Sign up
                       </Button>
                     </Link>
+
                     <p className="text-xs text-blue-200">
                       By signing up, you agree to our Terms of Service and Privacy Policy.
                     </p>
