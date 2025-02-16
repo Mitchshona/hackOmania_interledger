@@ -61,7 +61,27 @@ export default function UserPosts() {
   }, []);
 
   if (isAuthenticated === null || loading) {
-    return <div>Loading...</div>;
+    return (
+      <div className="space-y-6">
+        <div className="flex items-center justify-between mb-4">
+          <div className="h-8 w-48 bg-gray-200 rounded-md animate-pulse"></div>
+          <div className="flex gap-3">
+            <div className="h-10 w-28 bg-gray-200 rounded-md animate-pulse"></div>
+            <div className="h-10 w-32 bg-gray-200 rounded-md animate-pulse"></div>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+          {[...Array(6)].map((_, index) => (
+            <div key={index} className="bg-white shadow-md rounded-lg p-6 space-y-4">
+              <div className="w-full h-[200px] bg-gray-200 rounded-md animate-pulse"></div>
+              <div className="h-4 w-32 bg-gray-200 rounded-md animate-pulse"></div>
+              <div className="h-4 w-40 bg-gray-200 rounded-md animate-pulse"></div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
   }
 
   return (

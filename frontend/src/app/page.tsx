@@ -62,24 +62,26 @@ export default function LandingPage() {
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <FeatureCard
-                  icon={<Users className="h-10 w-10 text-blue-600" />}
-                  title="Supportive Community"
-                  description="Connect with peers who understand your struggles and celebrate your victories."
-                />
-                <FeatureCard
                   icon={<BarChart className="h-10 w-10 text-green-600" />}
-                  title="Track Your Progress"
-                  description="Visualize your journey with intuitive charts and milestone tracking."
+                  title="Share your Digital Detox Journey"
+                  description="Log your screen time and make community posts"
                 />
+                
+                <FeatureCard
+                  icon={<Users className="h-10 w-10 text-blue-600" />}
+                  title="Receive support from the community"
+                  description="Interact with the community and show your good progress"
+                />
+
                 <FeatureCard
                   icon={<Shield className="h-10 w-10 text-purple-600" />}
-                  title="Safe Space"
-                  description="A moderated platform ensuring a positive and encouraging environment."
+                  title="Secure Donations"
+                  description="We leverage Interledger Protocol to ensure a secure and transparent donation process."
                 />
                 <FeatureCard
                   icon={<Smartphone className="h-10 w-10 text-red-600" />}
-                  title="Digital Detox Tips"
-                  description="Access expert advice and practical strategies for managing screen time."
+                  title="Earn with Challenges"
+                  description="Complete exciting challenges from our partners to earn rewards"
                 />
               </div>
             </div>
@@ -97,15 +99,18 @@ export default function LandingPage() {
               </h2>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                 <TestimonialCard
+                  image="/regina.jpg"
                   quote="well helped me regain control of my life. I've rediscovered my passion for outdoor activities!"
-                  author="Alex, 17"
+                  author="Regina, 16"
                 />
                 <TestimonialCard
+                  image="/sam.jpg"
                   quote="The community here is so supportive. I don't feel alone in my struggle anymore."
-                  author="Sam, 15"
+                  author="Sam, 19"
                 />
                 <TestimonialCard
-                  quote="I've improved my grades and relationships since joining well. It's been life-changing!"
+                  image="/jordan.jpg"
+                  quote="I've improved my focus and relationships since joining well. It's been life-changing!"
                   author="Jordan, 16"
                 />
               </div>
@@ -133,7 +138,7 @@ export default function LandingPage() {
                       </Button>
                     </Link>
 
-                    <p className="text-xs text-blue-200">
+                    <p className="text-xs text-black">
                       By signing up, you agree to our Terms of Service and Privacy Policy.
                     </p>
                   </div>
@@ -143,14 +148,14 @@ export default function LandingPage() {
             
             <footer className="w-full border-t border-blue-500">
               <div className="flex flex-col gap-2 sm:flex-row py-6 items-center justify-between px-4 md:px-6 max-w-7xl mx-auto">
-                <p className="text-xs text-blue-200">© 2024 well. All rights reserved.</p>
+                <p className="text-xs text-black">© 2024 well. All rights reserved.</p>
                 <nav className="sm:ml-auto flex gap-4 sm:gap-6">
-                  <Link className="text-xs hover:underline underline-offset-4 text-blue-200" href="#">
+                  {/* <Link className="text-xs hover:underline underline-offset-4 text-black" href="#">
                     Terms of Service
                   </Link>
                   <Link className="text-xs hover:underline underline-offset-4 text-blue-200" href="#">
                     Privacy
-                  </Link>
+                  </Link> */}
                 </nav>
               </div>
             </footer>
@@ -163,7 +168,7 @@ export default function LandingPage() {
 
 function FeatureCard({ icon, title, description }: FeatureCardProps) {
   return (
-    <div className="flex flex-col items-center text-center">
+    <div className="flex flex-col items-center text-center p-6 border border-gray-200 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
       <div className="mb-4">{icon}</div>
       <h3 className="text-xl font-bold mb-2">{title}</h3>
       <p className="text-gray-500">{description}</p>
@@ -172,16 +177,17 @@ function FeatureCard({ icon, title, description }: FeatureCardProps) {
 }
 
 interface TestimonialCardProps {
+  image: string;
   quote: string;
   author: string;
 }
 
-function TestimonialCard({ quote, author }: TestimonialCardProps) {
+function TestimonialCard({ image, quote, author }: TestimonialCardProps) {
   return (
     <div className="bg-white p-6 rounded-lg shadow-md">
       <div className="flex flex-col items-center">
         <img
-          src="/success.png"
+          src={image}
           alt="Testimonial hero image" 
           width={200}
           height={200}

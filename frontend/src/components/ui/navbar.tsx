@@ -69,15 +69,17 @@ const Navbar = () => {
             </Button>      
           </Link>
 
-          <Link href="/challenges">
-            <Button 
-              size="sm" 
-              variant="outline" 
-              className="text-md px-3 py-5 text-gray-600 hover:bg-green-800 hover:text-white rounded-full"
-            >
-              Challenges
-            </Button>      
-          </Link>
+          {user ? (
+            <Link href="/challenges">
+              <Button 
+                size="sm" 
+                variant="outline" 
+                className="text-md px-3 py-5 text-gray-600 hover:bg-green-800 hover:text-white rounded-full"
+              >
+                Challenges
+              </Button>      
+            </Link>
+          ) : null}
         </div>
 
         <nav className="ml-auto flex items-center gap-4 sm:gap-6">

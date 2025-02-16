@@ -75,7 +75,24 @@ export default function ProfileInfo() {
   return (
     <div className="bg-white shadow-[0_0_20px_rgba(0,0,0,0.15)] rounded-lg p-6 mb-6">
       {loading ? (
-        <p className="text-center">Loading profile...</p>
+        <div className="flex items-center space-x-4 mb-4">
+          <div className="relative">
+            {/* Avatar skeleton */}
+            <div className="w-32 h-32 rounded-full bg-gray-200 animate-pulse" />
+          </div>
+          <div className="flex-grow space-y-4">
+            {/* Name skeleton */}
+            <div className="flex items-center">
+              <div className="h-8 w-48 bg-gray-200 rounded-md animate-pulse" />
+              <div className="ml-2 h-8 w-8 bg-gray-200 rounded-md animate-pulse" />
+            </div>
+            {/* Bio skeleton */}
+            <div className="flex items-center">
+              <div className="h-20 w-full bg-gray-200 rounded-md animate-pulse" />
+              <div className="ml-2 h-8 w-8 bg-gray-200 rounded-md animate-pulse" />
+            </div>
+          </div>
+        </div>
       ) : (
         <div className="flex items-center space-x-4 mb-4">
           <div className="relative">

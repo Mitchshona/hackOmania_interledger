@@ -64,11 +64,10 @@ const SupporterCard = () => {
             />
           </div>
           <div className="max-w-xl space-y-4 text-gray-300">
-            <h3 className="text-2xl font-semibold text-white">Be supported in your recovery journey.</h3>
+            <h3 className="text-2xl font-semibold text-white">Encourage those in your community with direct donations.</h3>
             <p>
-              Create better digital use habits by sharing your daily experiences with addiction recovery            </p>
-            <p>
-              Be rewarded for keeping a streak of low screen time usage.
+              Watch our commmunity creators share their stories,
+              and cheer them on through a direct and transparent donation.
             </p>
 
                     <Link href="/feed" className='mt-8 block'>
