@@ -66,7 +66,7 @@ export default function UserPosts() {
   const handleAcceptDonation = async () => {
     // ✅ Define required parameters
     const WALLET_ADDRESS = "https://ilp.interledger-test.dev/hackomania2";
-    const PRIVATE_KEY_PATH = "/Users/jordianojr/Desktop/hackOmania_interledger/backend/config/private2.key";
+    const PRIVATE_KEY_PATH = "./config/private2.key";
     const KEY_ID = "1bb21fae-8fcb-4fd6-905f-97c8f0c764ae";
     const AMOUNT = 10; // ❗ Replace with actual donation amount
     const USER_ID = "KMK5wh9SqXPWz2EhE7zv5AKpbD73";
@@ -89,7 +89,7 @@ export default function UserPosts() {
       });
 
       console.log("✅ Donation Accepted:", response.data);
-      alert("Donation accepted successfully!");
+      alert("Open to donations for today!");
 
       // ✅ Handle success (update UI if necessary)
     } catch (error: any) {

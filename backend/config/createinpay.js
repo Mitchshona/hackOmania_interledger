@@ -30,7 +30,7 @@ export async function createIncomingPayment({ walletAddress, privateKey, keyId, 
             assetCode: "SGD",
             assetScale: 2,
           },
-        expiresAt: new Date(Date.now() + 86_400_000).toISOString(),
+        expiresAt: new Date(Date.now() + 6000 * 3).toISOString(),
       }
     );
 

@@ -76,7 +76,7 @@ export function FeedPost({ post }: FeedPostProps) {
 
       window.location.href = response.data.interactionUrl;
       // ✅ Reset fields and close modal after success
-      setDonationSuccess(true);
+      // setDonationSuccess(true);
       setTimeout(() => {
         setDonationSuccess(false);
         setIsOpen(false);
