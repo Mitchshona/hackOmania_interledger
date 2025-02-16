@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { db } from "@/app/config/firebase-config"; // Adjust the path accordingly
 import { collection, getDocs, addDoc } from "firebase/firestore";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface Challenge {
   id: string; // Firestore IDs are strings
@@ -86,7 +87,28 @@ export default function ChallengePage() {
   };
 
   if (loading) {
-    return <div>Loading...</div>; // Show loading text while fetching data
+    return (
+      <div className="min-h-screen bg-gray-50 py-12 px-6 sm:px-16">
+        <div className="max-w-3xl mx-auto text-center mb-8">
+          <Skeleton className="h-12 w-3/4 mx-auto mb-4" />
+          <Skeleton className="h-20 w-full" />
+        </div>
+
+        <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+          {[...Array(6)].map((_, index) => (
+            <div
+              key={index}
+              className="bg-white p-6 rounded-xl shadow-xl"
+            >
+              <Skeleton className="h-8 w-3/4 mb-4" />
+              <Skeleton className="h-20 w-full mb-4" />
+              <Skeleton className="h-6 w-1/3 mb-4" />
+              <Skeleton className="h-10 w-full" />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
   }
 
   return (

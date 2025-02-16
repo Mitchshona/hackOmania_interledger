@@ -10,7 +10,7 @@ export function ImageUploadButton({ onPostUploaded }: { onPostUploaded: () => vo
 
   return (
     <>
-      <Button className="bg-blue-600 hover:bg-red-800 text-white" onClick={() => setIsOpen(true)}>Upload Post</Button>
+      <Button className="bg-blue-600 hover:bg-blue-800 text-white" onClick={() => setIsOpen(true)}>Upload Post</Button>
       <ImageUploadModal isOpen={isOpen} onClose={() => setIsOpen(false)} onPostUploaded={onPostUploaded} />
     </>
 
