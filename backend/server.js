@@ -301,8 +301,10 @@ app.post('/api/userCreateInComingDonation', async (req, res) => {
 });
 
 app.post('/api/userCreateOutGoingDonation', async (req, res) => {
-    const { WALLET_ADDRESS, PRIVATE_KEY_PATH, KEY_ID, RECEIPIENT_UID } = req.body;
+    let { WALLET_ADDRESS, PRIVATE_KEY_PATH, KEY_ID, RECEIPIENT_UID } = req.body;
     
+    PRIVATE_KEY_PATH = "./config/private1.key";
+
     const donationsRef = collection(db, "donations");
         const q = query(donationsRef, where("userId", "==", RECEIPIENT_UID));
 

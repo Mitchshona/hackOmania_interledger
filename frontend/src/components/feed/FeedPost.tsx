@@ -37,7 +37,7 @@ export function FeedPost({ post }: FeedPostProps) {
   const handleDonate = async () => {
 
     const WALLET_ADDRESS = "https://ilp.interledger-test.dev/hackomania";
-    const PRIVATE_KEY_PATH =  "./config/private1.key";
+    const PRIVATE_KEY_PATH =  "/Users/jordianojr/Desktop/hackOmania_interledger/backend/config/private1.key";
     const KEY_ID =  "3c7b5ba0-f3d1-47de-be80-b0e9c7ed3a65";
     const RECEIPIENT_UID =  "KMK5wh9SqXPWz2EhE7zv5AKpbD73";
 
