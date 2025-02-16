@@ -24,10 +24,6 @@ As technology becomes more embedded in daily life, concerns about its impact on 
    - Users can earn **streak multipliers** based on consistent screen time reduction and engagement in offline activities.
    - Streaks increase rewards from both challenges and donations.
 
-### 5. **Community Fund Pool**
-   - Users contribute to a **community fund** that is used to multiply rewards for active participants.
-   - The more contributions to the community fund, the greater the rewards for active users with healthy habits.
-
 ## Tech Stack
 - **Frontend**: React, HTML, CSS
 - **Backend**: Node.js, Express.js
