@@ -1,7 +1,7 @@
-import ProfileInfo from "@/components/ProfileInfo"
-import StreakCard from "@/components/StreakCard"
-import UserPosts from "@/components/UserPosts"
-import Navbar from "@/components/ui/navbar"
+import ProfileInfo from "@/components/ProfileInfo";
+import StreakCard from "@/components/StreakCard";
+import UserPosts from "@/components/UserPosts";
+import Challenges from "@/components/challenge/Challenges";
 
 export default function ProfilePage({
   searchParams,
@@ -18,6 +18,7 @@ export default function ProfilePage({
       <ProfileInfo/>
       <StreakCard averageScreentime={0} />
       <UserPosts />
+      <Challenges />
     </main>
-  )
+  );
 }

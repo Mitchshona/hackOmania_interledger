@@ -1,46 +1,96 @@
-import Image from "next/image"
-import Link from "next/link"
-import { useState } from 'react'
-import { Heart, MessageCircle, DollarSign } from 'lucide-react'
-import { Button } from "@/components/ui/button"
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
+"use client";
+
+import Image from "next/image";
+import Link from "next/link";
+import { useState } from "react";
+import { Heart, MessageCircle, DollarSign } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import axios from "axios"; // ✅ Import axios for API request
 
 interface Post {
-  id: string
-  user: string
-  avatar: string
-  image: string
-  caption: string
-  likes: number
-  comments: number
-  donations: number
+  id: string;
+  user: string;
+  avatar: string;
+  image: string;
+  caption: string;
+  likes: number;
+  comments: number;
+  donations: number;
 }
 
 interface FeedPostProps {
-  post: Post
+  post: Post;
 }
 
 export function FeedPost({ post }: FeedPostProps) {
-  const [isOpen, setIsOpen] = useState(false)
-  const [donationAmount, setDonationAmount] = useState('')
-  const [walletAddress, setWalletAddress] = useState('')
-  const [privateKeyPath, setPrivateKeyPath] = useState('')
-  const [keyId, setKeyId] = useState('')
-  const [donationSuccess, setDonationSuccess] = useState(false)
+  const [isOpen, setIsOpen] = useState(false);
+  const [donationAmount, setDonationAmount] = useState("");
+  const [walletAddress, setWalletAddress] = useState("");
+  const [privateKeyPath, setPrivateKeyPath] = useState("");
+  const [keyId, setKeyId] = useState("");
+  const [donationSuccess, setDonationSuccess] = useState(false);
+  const [isProcessing, setIsProcessing] = useState(false); // ✅ Disable button while processing
 
-  const handleDonate = () => {
-    // Here you would typically handle the actual donation process
-    setDonationSuccess(true)
-    setTimeout(() => {
-      setDonationSuccess(false)
-      setIsOpen(false)
-      setDonationAmount('')
-      setWalletAddress('')
-      setPrivateKeyPath('')
-      setKeyId('')
-    }, 2000)
-  }
+  // ✅ Handle Donation API Call
+  const handleDonate = async () => {
+
+    const WALLET_ADDRESS = "https://ilp.interledger-test.dev/hackomania";
+    const PRIVATE_KEY_PATH =  "./config/private1.key";
+    const KEY_ID =  "3c7b5ba0-f3d1-47de-be80-b0e9c7ed3a65";
+    const RECEIPIENT_UID =  "KMK5wh9SqXPWz2EhE7zv5AKpbD73";
+
+
+    if (!WALLET_ADDRESS || !PRIVATE_KEY_PATH || !KEY_ID || !donationAmount) {
+      alert("Please fill in all required fields before donating.");
+      return;
+    }
+
+    setIsProcessing(true); // ✅ Disable button while processing
+
+    // const payload = {
+    //   WALLET_ADDRESS: walletAddress,
+    //   PRIVATE_KEY_PATH: privateKeyPath,
+    //   KEY_ID: keyId,
+    //   PAYMENTID: `donation-${Date.now()}`, // ✅ Unique Payment ID
+    
+
+
+
+    // console.log("🔹 Sending Outgoing Donation Request:", payload);
+
+    try {
+      const response = await axios.post(
+        "http://localhost:5600/api/userCreateOutGoingDonation",
+        {
+          WALLET_ADDRESS: WALLET_ADDRESS,
+          PRIVATE_KEY_PATH: PRIVATE_KEY_PATH,
+          KEY_ID: KEY_ID,
+          RECEIPIENT_UID: RECEIPIENT_UID
+        }
+      );
+
+      console.log("✅ Donation Successful:", response.data);
+      alert("Donation successfully processed!");
+
+      // ✅ Reset fields and close modal after success
+      setDonationSuccess(true);
+      setTimeout(() => {
+        setDonationSuccess(false);
+        setIsOpen(false);
+        setDonationAmount("");
+        setWalletAddress("");
+        setPrivateKeyPath("");
+        setKeyId("");
+      }, 2000);
+    } catch (error: any) {
+      console.error("❌ Error Processing Donation:", error);
+      alert(`Failed to process donation. ${error.response?.data?.error || "Try again later."}`);
+    } finally {
+      setIsProcessing(false);
+    }
+  };
 
   return (
     <div className="bg-white rounded-lg shadow-md overflow-hidden max-w-sm">
@@ -56,11 +106,11 @@ export function FeedPost({ post }: FeedPostProps) {
           {post.user}
         </Link>
       </div>
-      <Image 
-        src={post.image || "/placeholder.svg"} 
-        alt="Post image" 
-        width={400} 
-        height={400} 
+      <Image
+        src={post.image || "/placeholder.svg"}
+        alt="Post image"
+        width={400}
+        height={400}
         className="w-full h-64 object-cover"
       />
       <div className="p-4">
@@ -117,7 +167,9 @@ export function FeedPost({ post }: FeedPostProps) {
                     onChange={(e) => setKeyId(e.target.value)}
                     className="mb-4"
                   />
-                  <Button onClick={handleDonate}>Donate</Button>
+                  <Button onClick={handleDonate} disabled={isProcessing}>
+                    {isProcessing ? "Processing..." : "Donate"}
+                  </Button>
                 </>
               ) : (
                 <div className="text-center text-green-600 font-bold">
@@ -132,5 +184,5 @@ export function FeedPost({ post }: FeedPostProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }

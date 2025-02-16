@@ -9,8 +9,7 @@ import { incomingPaymentPromise } from "./config/createinpay.js";
 import { quotePromise } from "./config/createdebitquote.js";
 import { outgoingGrantPromise } from "./config/createoutgrant.js";
 import { createOutgoingPayment } from "./config/createoutpay.js";
-import { getFirestore, collection, getDocs } from "firebase/firestore";
-import fs from 'fs';
+import { getFirestore, collection, query, where, getDocs, setDoc, doc } from "firebase/firestore";import { initializeApp } from "firebase/app";import fs from 'fs';
 import axios from 'axios';
 import cors from 'cors';
 
@@ -24,6 +23,15 @@ const openaiService = new OpenaiService(openai);
 app.use(bodyParser.json({ limit: '50mb' }));
 
 const backend_endpoint = process.env.BACKEND_ENDPOINT;
+
+const firebaseConfig = {
+    apiKey: process.env.FIREBASE_API_KEY,
+    authDomain: process.env.FIREBASE_AUTH_DOMAIN,
+    projectId: process.env.FIREBASE_PROJECT_ID,
+  };
+  
+const appFire = initializeApp(firebaseConfig);
+const db = getFirestore(appFire);
 
 app.get('/', (req, res)=>{
     res.status(200);
@@ -243,9 +251,7 @@ app.get('/continuegrant', async (req, res) => {
         quote: quote,
     });
     // const outPay = axios.post(`${backend_endpoint}/createoutpay`, { WALLET_ADDRESS, privateKey, KEY_ID, accessToken, quoteURL });
-    res.json({
-        result
-    });
+    res.redirect("http://localhost:3000/user/joel3?success=true");
 });
 
 app.post('/createoutpay', async (req, res) => {
@@ -281,13 +287,39 @@ app.post('/api/userCreateInComingDonation', async (req, res) => {
     console.log(inGrant.data);
     const ACCESS_TOKEN = inGrant.data.grantData.accessToken;
     const inPay = await axios.post(`${backend_endpoint}/createinpay`, { WALLET_ADDRESS, privateKey, KEY_ID, ACCESS_TOKEN, AMOUNT});
-    // getFirestore;
+    const donationData = {
+        userId: USER_ID,
+        paymentId: inPay.data.paymentId,
+        accessToken: inPay.data.accessToken,
+        createdAt: new Date().toISOString(),
+        amount: AMOUNT,
+        walletAddress: WALLET_ADDRESS
+    };
+    // Add a new document with paymentId as the document ID
+    await setDoc(doc(db, "donations", USER_ID), donationData);
     res.status(200).json(inPay.data);
 });
 
 app.post('/api/userCreateOutGoingDonation', async (req, res) => {
     const { WALLET_ADDRESS, PRIVATE_KEY_PATH, KEY_ID, RECEIPIENT_UID } = req.body;
     
+    const donationsRef = collection(db, "donations");
+        const q = query(donationsRef, where("userId", "==", RECEIPIENT_UID));
+
+        // 2. Execute query
+        const querySnapshot = await getDocs(q);
+
+        if (querySnapshot.empty) {
+            return res.status(404).json({
+                success: false,
+                error: "No donations found for this user"
+            });
+        }
+
+        // 3. Get first matching document (assuming 1:1 UID:payment)
+    const doc = querySnapshot.docs[0];
+    const paymentData = doc.data();
+    console.log("Payment Data:", paymentData);
     let privateKey;
     try {
         privateKey = fs.readFileSync(PRIVATE_KEY_PATH, 'utf8');
@@ -323,6 +355,7 @@ app.post('/api/userCreateOutGoingDonation', async (req, res) => {
       );
     
     const ACCESS_TOKEN = quoteGrant.access_token.value;
+    const PAYMENTID = paymentData.paymentId;
     const debitQuote = await axios.post(`${backend_endpoint}/createdebitquote`, { WALLET_ADDRESS, PRIVATE_KEY_PATH, KEY_ID, ACCESS_TOKEN, PAYMENTID });
     const QUOTE = debitQuote.data.quote;
     console.log(debitQuote.data);
@@ -331,7 +364,7 @@ app.post('/api/userCreateOutGoingDonation', async (req, res) => {
         PRIVATE_KEY_PATH,
         KEY_ID,
         ACCESS_TOKEN,
-        PAYMENTID,
+        paymentData.paymentId,
         QUOTE
     );
 
@@ -347,7 +380,6 @@ app.post('/api/userCreateOutGoingDonation', async (req, res) => {
     });    
     console.log(result);
     res.status(200).json(result);
-    // redirect(outgoingGrant.data.interaction_url);
 });
 
 
