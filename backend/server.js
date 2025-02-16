@@ -251,7 +251,7 @@ app.get('/continuegrant', async (req, res) => {
         quote: quote,
     });
     // const outPay = axios.post(`${backend_endpoint}/createoutpay`, { WALLET_ADDRESS, privateKey, KEY_ID, accessToken, quoteURL });
-    res.redirect("http://localhost:3000/user/joel3");
+    res.redirect("http://localhost:3000/user/joel3?success=true");
 });
 
 app.post('/createoutpay', async (req, res) => {
