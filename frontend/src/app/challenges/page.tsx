@@ -1,52 +1,93 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { db } from "@/app/config/firebase-config"; // Adjust the path accordingly
+import { collection, getDocs, addDoc } from "firebase/firestore";
 
 interface Challenge {
-  id: number;
+  id: string; // Firestore IDs are strings
   title: string;
   description: string;
   reward: number;
 }
 
-const activities: Challenge[] = [
-  {
-    id: 1,
-    title: "Join a Community Cleanup",
-    description: "Help clean up your local park or beach. Improve your environment and mental well-being while earning rewards!",
-    reward: 2,
-  },
-  {
-    id: 2,
-    title: "Attend a Local Fitness Class",
-    description: "Join a local fitness class such as yoga, pilates, or HIIT to boost your physical and mental health.",
-    reward: 1,
-  },
-  {
-    id: 3,
-    title: "Volunteer at a Charity Event",
-    description: "Volunteer at a local charity event. Helping others is a great way to improve mental health and earn rewards!",
-    reward: 3,
-  },
-  {
-    id: 4,
-    title: "Attend a Mental Health Workshop",
-    description: "Join a mental health awareness workshop to learn about managing stress, anxiety, and improving overall well-being.",
-    reward: 2.5,
-  },
-  {
-    id: 5,
-    title: "Participate in a Charity Run",
-    description: "Sign up for a charity run. Run for a cause and improve both your physical and mental well-being while earning rewards.",
-    reward: 1.5,
-  },
-];
-
 export default function ChallengePage() {
-  const handleJoin = (id: number) => {
-    // Here you can add any logic to handle what happens when a user joins an activity.
-    console.log(`User joined activity with ID: ${id}. Activity completed!`);
+  const [activities, setActivities] = useState<Challenge[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [userChallenges, setUserChallenges] = useState<Challenge[]>([]);
+  const [isProcessing, setIsProcessing] = useState<string | null>(null); // Track the challenge being processed
+
+  // Fetch challenges from Firestore
+  useEffect(() => {
+    const fetchChallenges = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "challenges"));
+        const challenges: Challenge[] = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        })) as Challenge[];
+
+        setActivities(challenges); // Set activities state
+      } catch (error) {
+        console.error("Error fetching challenges:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchChallenges();
+  }, []); // Empty dependency array ensures this runs only once when the component mounts
+
+  // Fetch user-specific challenges from Firestore (userChallenges collection)
+  useEffect(() => {
+    const fetchUserChallenges = async () => {
+      try {
+        const querySnapshot = await getDocs(collection(db, "userChallenges"));
+        const challenges: Challenge[] = querySnapshot.docs.map((doc) => ({
+          id: doc.data().challengeId,
+          title: doc.data().title,
+          description: doc.data().description,
+          reward: doc.data().reward,
+        }));
+
+        setUserChallenges(challenges); // Set user challenges state
+      } catch (error) {
+        console.error("Error fetching user challenges:", error);
+      }
+    };
+
+    fetchUserChallenges();
+  }, []);
+
+  // Handle joining a challenge
+  const handleJoin = async (id: string, title: string, description: string, reward: number) => {
+    try {
+      setIsProcessing(id); // Set the challenge ID to indicate processing
+      // Add the challenge to the userChallenges collection in Firestore
+      await addDoc(collection(db, "userChallenges"), {
+        challengeId: id,
+        title,
+        description,
+        reward,
+      });
+
+      // Update local state to reflect the new challenge
+      setUserChallenges((prevChallenges) => [
+        ...prevChallenges,
+        { id, title, description, reward },
+      ]);
+
+      console.log(`User joined challenge with ID: ${id}.`);
+    } catch (error) {
+      console.error("Error joining challenge:", error);
+    } finally {
+      setIsProcessing(null); // Reset the processing state
+    }
   };
+
+  if (loading) {
+    return <div>Loading...</div>; // Show loading text while fetching data
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-12 px-6 sm:px-16">
@@ -60,18 +101,48 @@ export default function ChallengePage() {
       <div className="grid gap-8 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
         {activities.map((activity) => (
           <div
-            key={activity.id}
+            key={activity.id} // Ensure each child has a unique key
             className="bg-white p-6 rounded-xl shadow-xl hover:shadow-2xl transition-shadow duration-300 ease-in-out transform hover:scale-105"
           >
             <h2 className="text-2xl font-semibold text-gray-800 mb-4">{activity.title}</h2>
             <p className="text-gray-600 mb-4">{activity.description}</p>
             <p className="text-lg font-semibold text-green-500 mb-4">Reward: ${activity.reward}</p>
 
+            {/* Button logic */}
             <button
-              onClick={() => handleJoin(activity.id)}
-              className="w-full py-2 rounded-md text-white font-semibold bg-blue-600 hover:bg-blue-700 transition-all duration-300"
+              onClick={() =>
+                handleJoin(activity.id, activity.title, activity.description, activity.reward)
+              }
+              className={`w-full py-2 rounded-md text-white font-semibold ${
+                userChallenges.some((userChallenge) => userChallenge.id === activity.id) || isProcessing === activity.id
+                  ? "bg-gray-400 cursor-not-allowed"
+                  : "bg-blue-600 hover:bg-blue-700"
+              } transition-all duration-300`}
+              disabled={userChallenges.some((userChallenge) => userChallenge.id === activity.id) || isProcessing === activity.id}
             >
-              Join Now
+              {isProcessing === activity.id ? (
+                <span className="flex items-center justify-center">
+                  <svg
+                    className="animate-spin h-5 w-5 mr-2 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M12 22c5.522 0 10-4.478 10-10S17.522 2 12 2 2 6.478 2 12s4.478 10 10 10z"
+                    />
+                  </svg>
+                  Joining...
+                </span>
+              ) : userChallenges.some((userChallenge) => userChallenge.id === activity.id) ? (
+                "Joined"
+              ) : (
+                "Join Now"
+              )}
             </button>
           </div>
         ))}
