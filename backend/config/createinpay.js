@@ -25,6 +25,11 @@ export async function createIncomingPayment({ walletAddress, privateKey, keyId, 
       },
       {
         walletAddress: walletAddress,
+        incomingAmount: {
+            value: "100",
+            assetCode: "SGD",
+            assetScale: 2,
+          },
         expiresAt: new Date(Date.now() + 86_400_000).toISOString(),
       }
     );
