@@ -26,7 +26,7 @@ As technology becomes more embedded in daily life, concerns about its impact on 
 
 ## Tech Stack
 - **Frontend**: React, TypeScript, Tailwind CSS, Shadcn
-- **Backend**: Node.js, Express.js, Open Payments API, Firebase, Azure OpenAI
+- **Backend**: Node.js, Express.js, Open Payments API, Firebase, OpenAI
 - **API Integration**: 
    - **OpenPayment API** for donations (Main API to receive and make donations).
 - **AI Integration**: OpenAI for screen time image scanning.
