@@ -25,16 +25,10 @@ As technology becomes more embedded in daily life, concerns about its impact on 
    - Streaks increase rewards from both challenges and donations.
 
 ## Tech Stack
-- **Frontend**: React, HTML, CSS
-- **Backend**: Node.js, Express.js
+- **Frontend**: React, TypeScript, Tailwind CSS, Shadcn
+- **Backend**: Node.js, Express.js, Open Payments API, Firebase, Azure OpenAI
 - **API Integration**: 
    - **OpenPayment API** for donations (Main API to receive and make donations).
 - **AI Integration**: OpenAI for screen time image scanning.
-- **Database**: MongoDB (for user data, challenge tracking, streaks, etc.).
+- **Authentication & Database**: Firebase (for user data, challenge tracking, streaks, etc.).
 
-## Installation
-
-### 1. Clone the repository:
-   ```bash
-   git clone https://github.com/yourusername/hackOmania_interledger.git
-   cd hackOmania_interledger
