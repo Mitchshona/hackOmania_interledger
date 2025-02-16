@@ -71,9 +71,10 @@ export function FeedPost({ post }: FeedPostProps) {
         }
       );
 
-      console.log("✅ Donation Successful:", response.data);
-      alert("Donation successfully processed!");
+      // console.log("✅ Donation Successful:", response.data);
+      // alert("Donation successfully processed!");
 
+      window.location.href = response.data.interactionUrl;
       // ✅ Reset fields and close modal after success
       setDonationSuccess(true);
       setTimeout(() => {
