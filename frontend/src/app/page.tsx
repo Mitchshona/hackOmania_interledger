@@ -70,7 +70,7 @@ export default function LandingPage() {
                 <FeatureCard
                   icon={<Users className="h-10 w-10 text-blue-600" />}
                   title="Receive support from the community"
-                  description="Interact with the community and show your good progress"
+                  description="Show your good progress to the community and receive direct donations to support your journey."
                 />
 
                 <FeatureCard
