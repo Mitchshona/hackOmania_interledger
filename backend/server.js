@@ -266,7 +266,7 @@ app.post('/createoutpay', async (req, res) => {
 });
 
 app.post('/api/userCreateInComingDonation', async (req, res) => {
-    const { WALLET_ADDRESS, PRIVATE_KEY_PATH, KEY_ID, AMOUNT } = req.body;
+    const { WALLET_ADDRESS, PRIVATE_KEY_PATH, KEY_ID, AMOUNT, USER_ID } = req.body;
     
     let privateKey;
     try {
@@ -281,11 +281,12 @@ app.post('/api/userCreateInComingDonation', async (req, res) => {
     console.log(inGrant.data);
     const ACCESS_TOKEN = inGrant.data.grantData.accessToken;
     const inPay = await axios.post(`${backend_endpoint}/createinpay`, { WALLET_ADDRESS, privateKey, KEY_ID, ACCESS_TOKEN, AMOUNT});
+    // getFirestore;
     res.status(200).json(inPay.data);
 });
 
 app.post('/api/userCreateOutGoingDonation', async (req, res) => {
-    const { WALLET_ADDRESS, PRIVATE_KEY_PATH, KEY_ID, PAYMENTID } = req.body;
+    const { WALLET_ADDRESS, PRIVATE_KEY_PATH, KEY_ID, RECEIPIENT_UID } = req.body;
     
     let privateKey;
     try {
@@ -349,10 +350,29 @@ app.post('/api/userCreateOutGoingDonation', async (req, res) => {
     // redirect(outgoingGrant.data.interaction_url);
 });
 
-app.post('db/api/getUserWallet', async (req, res) => {
-    const { uid } = req.body;
-    
-});
+
+// app.post('/db/api/getUserBalance', async (req, res) => {
+//     const { WALLET_ADDRESS, PRIVATE_KEY_PATH, KEY_ID } = req.body;
+//     let privateKey;
+//     try {
+//         privateKey = fs.readFileSync(PRIVATE_KEY_PATH, 'utf8');
+//     } catch (error) {
+//         return res.status(400).json({
+//             success: false,
+//             error: `Failed to read private key file: ${error.message}`
+//         });
+//     }
+//     const client = await createAuthenticatedClient({
+//         walletAddressUrl: WALLET_ADDRESS,
+//         privateKey: privateKey,
+//         keyId: KEY_ID,
+//       });
+//     const walletAddress = await client.walletAddress.get({
+//         url: WALLET_ADDRESS, // Make sure the wallet address starts with https:// (not $)
+//       });
+//     console.log("Current Balance:", walletAddress);
+//     res.status(200).json(walletAddress);
+// });
 
 app.listen(PORT, (error) =>{
     if(!error)
